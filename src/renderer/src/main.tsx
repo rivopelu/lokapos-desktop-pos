@@ -1,4 +1,5 @@
 import './styles/index.scss';
+import './configs/i18n.config';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';

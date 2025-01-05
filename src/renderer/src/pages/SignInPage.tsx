@@ -3,6 +3,7 @@ import { InputText } from '@renderer/components/InputText';
 import { CardBody, MainCard } from '@renderer/components/MainCard';
 import { t } from 'i18next';
 import { useSignInPage } from './useSignInPage';
+import { LoadingButton } from '@mui/lab';
 
 export function SignInPage() {
   const page = useSignInPage();
@@ -25,12 +26,20 @@ export function SignInPage() {
                 required
                 name="email"
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                errorMessage={formik.touched.email && formik.errors.email}
+                value={formik.values.email}
               />
               <InputText
                 type={page.showPassword ? 'text' : 'password'}
                 label={t('password')}
                 placeholder={t('insert_password')}
                 required
+                name="password"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                errorMessage={formik.touched.password && formik.errors.password}
+                value={formik.values.password}
               />
               <FormControlLabel
                 control={
@@ -38,7 +47,9 @@ export function SignInPage() {
                 }
                 label={t('show_password')}
               />
-              <Button variant="contained">{t('sign_in')}</Button>
+              <LoadingButton loading={page.loadingSubmit} onClick={() => formik.handleSubmit()} variant="contained">
+                {t('sign_in')}
+              </LoadingButton>
             </div>
           </CardBody>
         </MainCard>

@@ -1,8 +1,17 @@
 import { PAGE_TYPE_ENUM } from '@renderer/enums/page-type-enum';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { Topbar } from './Topbar';
+import { useAppDispatch } from '@renderer/redux/store';
+import { AccountAction } from '@renderer/redux/actions/account.actions';
 
 export function BasePage(props: IProps) {
+  const dispatch = useAppDispatch();
+  const accountAction = new AccountAction();
+
+  useEffect(() => {
+    dispatch(accountAction.getMe()).then();
+  }, []);
+
   if (props.type === PAGE_TYPE_ENUM.PRIMARY) {
     return (
       <div>

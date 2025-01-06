@@ -1,9 +1,18 @@
 import { Button } from '@mui/material';
 import { PageContainer } from '@renderer/components/PageContainer';
+import { IAccountSlice } from '@renderer/redux/reducers/account.reducer';
+import { useAppSelector } from '@renderer/redux/store';
 import { ROUTES } from '@renderer/routes/routes';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 export function HomePage() {
+  const Account: IAccountSlice = useAppSelector((state) => state.Account);
+
+  useEffect(() => {
+    console.log(Account?.getMe?.data);
+  }, [Account?.getMe]);
+
   return (
     <main>
       <PageContainer>

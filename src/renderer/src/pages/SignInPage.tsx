@@ -1,9 +1,9 @@
-import { Button, Checkbox, Divider, FormControlLabel } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import { Checkbox, Divider, FormControlLabel } from '@mui/material';
 import { InputText } from '@renderer/components/InputText';
 import { CardBody, MainCard } from '@renderer/components/MainCard';
 import { t } from 'i18next';
 import { useSignInPage } from './useSignInPage';
-import { LoadingButton } from '@mui/lab';
 
 export function SignInPage() {
   const page = useSignInPage();

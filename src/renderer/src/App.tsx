@@ -5,7 +5,7 @@ import { ToastContainer } from 'react-toastify';
 
 export default function App() {
   return (
-    <div className="bg-slate-100">
+    <div className="bg-slate-100 min-h-screen">
       <ToastContainer
         position="bottom-right"
         autoClose={3000}

@@ -1,7 +1,11 @@
-export function OrderPage(){
+import { PageContainer } from '@renderer/components/PageContainer';
+
+export function OrderPage() {
   return (
     <div>
-      <h1>ORDER PAGE</h1>
+      <PageContainer>
+        <h1>ORDER PAGE</h1>
+      </PageContainer>
     </div>
-  )
+  );
 }

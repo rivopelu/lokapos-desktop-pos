@@ -3,9 +3,12 @@ import { BrandLogo } from './BrandLogo';
 import { PageContainer } from './PageContainer';
 import { t } from 'i18next';
 import { ROUTES } from '@renderer/routes/routes';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 export function TopBar() {
+  const [currentPage, setCurrentPage] = useState<string>('');
+  const location = useLocation();
   const dataListNavbar = [
     {
       label: t('home'),
@@ -20,6 +23,11 @@ export function TopBar() {
       route: ROUTES.HISTORY(),
     },
   ];
+
+  useEffect(() => {
+    setCurrentPage(location.pathname || '/');
+  }, [location.pathname]);
+
   return (
     <div>
       <div
@@ -33,7 +41,11 @@ export function TopBar() {
             </div>
             <div className="h-full flex items-center justify-center gap-5">
               {dataListNavbar.map((item, index) => (
-                <Link className={'uppercase'} to={item.route} key={index}>
+                <Link
+                  className={`uppercase ${currentPage === item.route ? 'text-primary-dark' : ''}`}
+                  to={item.route}
+                  key={index}
+                >
                   {item.label}
                 </Link>
               ))}

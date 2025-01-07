@@ -1,6 +1,6 @@
 import { PAGE_TYPE_ENUM } from '@renderer/enums/page-type-enum';
 import { ReactNode, useEffect } from 'react';
-import { Topbar } from './Topbar';
+import { TopBar } from './TopBar';
 import { useAppDispatch } from '@renderer/redux/store';
 import { AccountAction } from '@renderer/redux/actions/account.actions';
 
@@ -15,7 +15,7 @@ export function BasePage(props: IProps) {
   if (props.type === PAGE_TYPE_ENUM.PRIMARY) {
     return (
       <div>
-        <Topbar />
+        <TopBar />
         <div>{props.children}</div>
       </div>
     );

@@ -2,8 +2,10 @@ import { PAGE_TYPE_ENUM } from '@renderer/enums/page-type-enum';
 import { SignInPage } from '@renderer/pages/SignInPage';
 import { ROUTES } from './routes';
 import { jsx } from '@emotion/react';
-import Element = jsx.JSX.Element;
 import { HomePage } from '@renderer/pages/HomePage';
+import { OrderPage } from '@renderer/pages/OrderPage';
+import Element = jsx.JSX.Element;
+import { HistoryPage } from '@renderer/pages/HistoryPage';
 
 interface IRouteList {
   elements: () => Element;
@@ -20,6 +22,16 @@ export const routeList: IRouteList[] = [
   {
     elements: HomePage,
     route: ROUTES.HOME(),
+    type: PAGE_TYPE_ENUM.PRIMARY,
+  },
+  {
+    elements: OrderPage,
+    route: ROUTES.ORDER(),
+    type: PAGE_TYPE_ENUM.PRIMARY,
+  },
+  {
+    elements: HistoryPage,
+    route: ROUTES.HISTORY(),
     type: PAGE_TYPE_ENUM.PRIMARY,
   },
 ];

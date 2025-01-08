@@ -5,8 +5,14 @@ import { t } from 'i18next';
 import { ROUTES } from '@renderer/routes/routes';
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { IAccountSlice } from '@renderer/redux/reducers/account.reducer';
+import { useAppSelector } from '@renderer/redux/store';
+import { Avatar, IconButton } from '@mui/material';
 
 export function TopBar() {
+  const Account: IAccountSlice = useAppSelector((state) => state.Account);
+  const profile = Account?.getMe;
+
   const [currentPage, setCurrentPage] = useState<string>('');
   const location = useLocation();
   const dataListNavbar = [
@@ -51,7 +57,9 @@ export function TopBar() {
               ))}
             </div>
             <div className="flex items-center justify-end">
-              <div>PROFILE</div>
+              <IconButton>
+                <Avatar sx={{ width: 32, height: 32 }} src={profile?.data?.avatar} />
+              </IconButton>
             </div>
           </div>
         </PageContainer>

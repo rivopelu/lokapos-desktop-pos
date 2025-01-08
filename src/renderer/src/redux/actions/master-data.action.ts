@@ -4,9 +4,22 @@ import { Dispatch } from '@reduxjs/toolkit';
 import { ENDPOINT } from '@renderer/constants/endpoint';
 import { BaseResponse } from '@renderer/models/response/IResModel';
 import { IResListCategory } from '@renderer/models/response/IResListCategory';
+import { IResListMenu } from '@renderer/models/response/IResListMenu';
 
 export class MasterDataAction extends BaseActions {
   private action = MasterDataSlice.actions;
+
+  getMenu(){
+    return async (dispatch : Dispatch) => {
+      dispatch(this.action.getMenu({data : undefined, loading : true}))
+      await this.httpService.GET(ENDPOINT.GET_LIST_MENU()).then((res : BaseResponse<IResListMenu[]>) => {
+        dispatch(this.action.getMenu({data : res.data.response_data, loading : false}))
+      }).catch(e => {
+        this.errorService.fetchApiError(e)
+        dispatch(this.action.getMenu({loading: false, data : undefined}))
+      })
+    }
+  }
 
   getCategory() {
     return async (dispatch: Dispatch) => {

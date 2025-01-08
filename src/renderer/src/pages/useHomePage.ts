@@ -1,7 +1,7 @@
 import { IAccountSlice } from '@renderer/redux/reducers/account.reducer';
 import { useAppDispatch, useAppSelector } from '@renderer/redux/store';
 import { useEffect, useState } from 'react';
-import { dummyListMenu, IResListMenu } from '@renderer/models/response/IResListMenu';
+import { IResListMenu } from '@renderer/models/response/IResListMenu';
 import { MasterDataAction } from '@renderer/redux/actions/master-data.action';
 import { IMasterDataSlice } from '@renderer/redux/reducers/master-data.reducers';
 import { IResListCategory } from '@renderer/models/response/IResListCategory';
@@ -16,7 +16,7 @@ export function useHomePage() {
 
   const [selectedCategory, setSelectedCategory] = useState<string | undefined>();
   const [listCategory, setListCategory] = useState<IResListCategory[]>([]);
-  const [dataMenu] = useState<IResListMenu[]>(dummyListMenu);
+  const [dataMenu, setDataMenu] = useState<IResListMenu[]>([]);
 
   useEffect(() => {
     console.log(Account?.getMe?.data);
@@ -24,11 +24,23 @@ export function useHomePage() {
 
   useEffect(() => {
     dispatch(masterDataAction.getCategory()).then();
+    dispatch(masterDataAction.getMenu()).then();
   }, []);
 
   useEffect(() => {
     setListCategory(MasterData?.listCategories?.data || []);
   }, [MasterData?.listCategories?.data]);
+
+  useEffect(() => {
+    if (MasterData?.listMenu?.data) {
+      const data = MasterData.listMenu.data;
+      if (selectedCategory) {
+        setDataMenu(data.filter((e) => e.category_id === selectedCategory));
+      } else {
+        setDataMenu(data);
+      }
+    }
+  }, [MasterData?.listMenu?.data, selectedCategory]);
 
   function onSelectCategory(e: IResListCategory) {
     if (selectedCategory === e.id) {

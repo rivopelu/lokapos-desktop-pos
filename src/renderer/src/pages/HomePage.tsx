@@ -4,22 +4,27 @@ import { Fragment } from 'react';
 import { MainCard } from '@renderer/components/MainCard';
 import { PageContainer } from '@renderer/components/PageContainer';
 import { CardActionArea } from '@mui/material';
+import { NumberFormatterHelper } from '@renderer/helper/number-format-helper';
 
 export function HomePage() {
   const page = useHomePage();
+  const numberFormat = new NumberFormatterHelper()
 
   function productCard(data: IResListMenu) {
     return (
-      <MainCard>
+     <CardActionArea>
+       <MainCard>
         <div>
           <div className={'aspect-video'}>
             <img src={data.image} alt={data.name} className={'aspect-video  object-cover'} />
           </div>
-          <div className={'p-2 flex items-end h-full'}>
-            <p className={'line-clamp-1'}>{data.name}</p>
+          <div className={'p-3  h-full grid gap-1'}>
+            <p className={'line-clamp-1 text-slate-600'}>{data.name}</p>
+            <p className='font-semibold'>{data.price ? numberFormat.toRupiah(data.price): "-"}</p>
           </div>
         </div>
       </MainCard>
+     </CardActionArea>
     );
   }
 

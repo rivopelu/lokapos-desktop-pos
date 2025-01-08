@@ -5,26 +5,60 @@ import { MainCard } from '@renderer/components/MainCard';
 import { PageContainer } from '@renderer/components/PageContainer';
 import { CardActionArea } from '@mui/material';
 import { NumberFormatterHelper } from '@renderer/helper/number-format-helper';
+import { STYLE_VARIABLE } from '@renderer/constants/style-variable';
 
 export function HomePage() {
   const page = useHomePage();
-  const numberFormat = new NumberFormatterHelper()
+  const numberFormat = new NumberFormatterHelper();
 
   function productCard(data: IResListMenu) {
     return (
-     <CardActionArea>
-       <MainCard>
-        <div>
-          <div className={'aspect-video'}>
-            <img src={data.image} alt={data.name} className={'aspect-video  object-cover'} />
+      <CardActionArea onClick={() => page.onSelectMenu(data)}>
+        <MainCard>
+          <div>
+            <div className={'aspect-video'}>
+              <img src={data.image} draggable={false} alt={data.name} className={'aspect-video  object-cover'} />
+            </div>
+            <div className={'p-3  h-full grid gap-1'}>
+              <p className={'line-clamp-1 text-slate-600'}>{data.name}</p>
+              <p className="font-semibold">{data.price ? numberFormat.toRupiah(data.price) : '-'}</p>
+            </div>
           </div>
-          <div className={'p-3  h-full grid gap-1'}>
-            <p className={'line-clamp-1 text-slate-600'}>{data.name}</p>
-            <p className='font-semibold'>{data.price ? numberFormat.toRupiah(data.price): "-"}</p>
+        </MainCard>
+      </CardActionArea>
+    );
+  }
+
+  function rightContent() {
+    return (
+      <div className={'bg-white  w-[400px] '}>
+        <div
+          className="fixed border-l bg-white top-0 h-screen "
+          style={{ width: STYLE_VARIABLE.SIZE.SIDE_CASHIER_WIDTH }}
+        >
+          <div style={{ height: STYLE_VARIABLE.SIZE.TOP_BAR_HEIGHT }}></div>
+          <div className="p-3 grid gap-3">
+            {page.selectedMenuList.map((item, i) => (
+              <MainCard key={i} className="p-2">
+                <div className="flex gap-3">
+                  <div>
+                    <img draggable={'false'} src={item.image} className="object-cover w-32 aspect-video " />
+                  </div>
+                  <div className="flex justify-between w-full">
+                    <div>
+                      <div className="text-slate-600">{item.name}</div>
+                      <div className="font-semibold">
+                        {item.qty ? numberFormat.toRupiah(item.price * item.qty) : ''}
+                      </div>
+                    </div>
+                    <div className="font-semibold">x{item.qty}</div>
+                  </div>
+                </div>
+              </MainCard>
+            ))}
           </div>
         </div>
-      </MainCard>
-     </CardActionArea>
+      </div>
     );
   }
 
@@ -52,9 +86,7 @@ export function HomePage() {
           </div>
         </PageContainer>
       </div>
-      <div className={'bg-white border-l w-[400px]'}>
-        <div>HELLO</div>
-      </div>
+      {rightContent()}
     </main>
   );
 }

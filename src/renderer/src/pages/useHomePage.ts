@@ -17,6 +17,7 @@ export function useHomePage() {
   const [selectedCategory, setSelectedCategory] = useState<string | undefined>();
   const [listCategory, setListCategory] = useState<IResListCategory[]>([]);
   const [dataMenu, setDataMenu] = useState<IResListMenu[]>([]);
+  const [selectedMenuList, setSelectedMenuList] = useState<IResListMenu[]>([]);
 
   useEffect(() => {
     console.log(Account?.getMe?.data);
@@ -50,5 +51,23 @@ export function useHomePage() {
     }
   }
 
-  return { dataMenu, listCategory, onSelectCategory, selectedCategory };
+  function onSelectMenu(e: IResListMenu) {
+    const findData = selectedMenuList.find((value) => value.id === e.id);
+
+    if (findData) {
+      const filterData: IResListMenu[] = selectedMenuList.filter((v) => v.id != e.id);
+      const newData: IResListMenu = {
+        ...findData,
+        qty: (findData?.qty || 0) + 1,
+      };
+      setSelectedMenuList([newData, ...filterData]);
+    } else {
+      const newData: IResListMenu = {
+        ...e,
+        qty: 1,
+      };
+      setSelectedMenuList((v) => [newData, ...v]);
+    }
+  }
+  return { dataMenu, listCategory, onSelectCategory, selectedCategory, onSelectMenu, selectedMenuList };
 }

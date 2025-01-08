@@ -2,7 +2,7 @@ export const STYLE_VARIABLE = {
   SIZE: {
     SIDEBAR_WIDTH: 300,
     TOP_BAR_HEIGHT: 58,
-    SIDE_CASHIER_WIDTH: 620,
+    SIDE_CASHIER_WIDTH: 400,
   },
   COLORS: {
     PRIMARY: {

@@ -3,9 +3,12 @@ import { IResListMenu } from '@renderer/models/response/IResListMenu';
 import { Fragment } from 'react';
 import { MainCard } from '@renderer/components/MainCard';
 import { PageContainer } from '@renderer/components/PageContainer';
-import { CardActionArea } from '@mui/material';
+import { Button, CardActionArea } from '@mui/material';
 import { NumberFormatterHelper } from '@renderer/helper/number-format-helper';
 import { STYLE_VARIABLE } from '@renderer/constants/style-variable';
+import { LoadingButton } from '@mui/lab';
+import { t } from 'i18next';
+import { PopupModal } from '@renderer/components/PopupModal';
 
 export function HomePage() {
   const page = useHomePage();
@@ -37,33 +40,55 @@ export function HomePage() {
           style={{ width: STYLE_VARIABLE.SIZE.SIDE_CASHIER_WIDTH }}
         >
           <div style={{ height: STYLE_VARIABLE.SIZE.TOP_BAR_HEIGHT }}></div>
-          <div className="p-3 grid gap-3">
-            {page.selectedMenuList.map((item, i) => (
-              <MainCard key={i} className="p-2">
-                <div className="flex gap-3">
-                  <div>
-                    <img draggable={'false'} src={item.image} className="object-cover w-32 aspect-video " />
-                  </div>
-                  <div className="flex justify-between w-full">
+          <div className="p-3 flex-1  h-full flex flex-col justify-between">
+            <div className=" grid gap-3">
+              {page.selectedMenuList.map((item, i) => (
+                <MainCard key={i} className="p-2">
+                  <div className="flex gap-3">
                     <div>
-                      <div className="text-slate-600">{item.name}</div>
-                      <div className="font-semibold">
-                        {item.qty ? numberFormat.toRupiah(item.price * item.qty) : ''}
-                      </div>
+                      <img draggable={'false'} src={item.image} className="object-cover w-32 aspect-video " />
                     </div>
-                    <div className="font-semibold">x{item.qty}</div>
+                    <div className="flex justify-between w-full">
+                      <div>
+                        <div className="text-slate-600">{item.name}</div>
+                        <div className="font-semibold">
+                          {item.qty ? numberFormat.toRupiah(item.price * item.qty) : ''}
+                        </div>
+                      </div>
+                      <div className="font-semibold">x{item.qty}</div>
+                    </div>
                   </div>
-                </div>
-              </MainCard>
-            ))}
+                </MainCard>
+              ))}
+            </div>
+            <div className=" -translate-y-16">
+              <LoadingButton
+                loading={page.loadingSubmit}
+                variant="contained"
+                fullWidth
+                onClick={page.onSubmitCreateOrder}
+              >
+                {t('order')}
+              </LoadingButton>
+            </div>
           </div>
         </div>
       </div>
     );
   }
 
+  function componentModalQris() {
+    return (
+      <div>
+        {page.qrisUrl && <img className="w-48" src={page.qrisUrl} alt="qris" />}
+        <Button fullWidth>{t('check_status')}</Button>
+      </div>
+    );
+  }
+
   return (
     <main className="flex">
+      <PopupModal open={!!page.qrisUrl} component={componentModalQris()} onClose={() => page.setQrisUrl(undefined)} />
       <div className={' flex-1 mt-8'}>
         <PageContainer>
           <div className={'grid gap-6'}>

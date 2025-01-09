@@ -1,14 +1,16 @@
-import { useHomePage } from '@renderer/pages/useHomePage';
-import { IResListMenu } from '@renderer/models/response/IResListMenu';
-import { Fragment } from 'react';
+import { LoadingButton } from '@mui/lab';
+import { CardActionArea, Divider } from '@mui/material';
 import { MainCard } from '@renderer/components/MainCard';
 import { PageContainer } from '@renderer/components/PageContainer';
-import { Button, CardActionArea, Divider } from '@mui/material';
-import { NumberFormatterHelper } from '@renderer/helper/number-format-helper';
-import { STYLE_VARIABLE } from '@renderer/constants/style-variable';
-import { LoadingButton } from '@mui/lab';
-import { t } from 'i18next';
 import { PopupModal } from '@renderer/components/PopupModal';
+import { STYLE_VARIABLE } from '@renderer/constants/style-variable';
+import { ORDER_PAYMENT_STATUS_ENUM } from '@renderer/enums/order-payment-status-enum';
+import { NumberFormatterHelper } from '@renderer/helper/number-format-helper';
+import { IResListMenu } from '@renderer/models/response/IResListMenu';
+import { useHomePage } from '@renderer/pages/useHomePage';
+import { t } from 'i18next';
+import { Fragment } from 'react';
+import { MdCheckCircle } from 'react-icons/md';
 
 export function HomePage() {
   const page = useHomePage();
@@ -91,16 +93,35 @@ export function HomePage() {
 
   function componentModalQris() {
     return (
-      <div>
-        {page.qrisUrl && <img className="w-48" src={page.qrisUrl} alt="qris" />}
-        <Button fullWidth>{t('check_status')}</Button>
+      <div className="w-full grid  gap-7">
+        <div className="w-full items-center justify-center ">
+          {page?.responseCreateOrder?.payment_status === ORDER_PAYMENT_STATUS_ENUM.SUCCESS ? (
+            <div className="p-1 h-48 w-48 bg-green-200 flex items-center justify-center  rounded-full">
+              <MdCheckCircle className="text-green-600 text-8xl" />
+            </div>
+          ) : (
+            <>
+              {page?.responseCreateOrder?.qris_url || ''}
+              {page?.responseCreateOrder?.qris_url && (
+                <img className="w-48" src={page?.responseCreateOrder?.qris_url} alt="qris" />
+              )}
+            </>
+          )}
+        </div>
+        <LoadingButton onClick={page.onCheckStatusOrder} loading={page.loadingCheckStatusOrder} fullWidth>
+          {t('check_status')}
+        </LoadingButton>
       </div>
     );
   }
 
   return (
     <main className="flex">
-      <PopupModal open={!!page.qrisUrl} component={componentModalQris()} onClose={() => page.setQrisUrl(undefined)} />
+      <PopupModal
+        open={!!page.responseCreateOrder}
+        component={componentModalQris()}
+        onClose={() => page.setResponseCreateOrder(undefined)}
+      />
       <div className={' flex-1 mt-8'}>
         <PageContainer>
           <div className={'grid gap-6'}>

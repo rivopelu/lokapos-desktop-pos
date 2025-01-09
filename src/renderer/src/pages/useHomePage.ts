@@ -12,6 +12,7 @@ import { ORDER_PAYMENT_METHOD_ENUM } from '@renderer/enums/order-payment-method-
 import { ENDPOINT } from '@renderer/constants/endpoint';
 import { BaseResponse } from '@renderer/models/response/IResModel';
 import { IResCreateOrder } from '@renderer/models/response/IResCreateOrder';
+import { IResCheckOrderPaymentStatus } from '@renderer/models/response/IResCheckOrderPaymentStatus';
 
 export function useHomePage() {
   const dispatch = useAppDispatch();
@@ -27,8 +28,9 @@ export function useHomePage() {
   const [listCategory, setListCategory] = useState<IResListCategory[]>([]);
   const [dataMenu, setDataMenu] = useState<IResListMenu[]>([]);
   const [selectedMenuList, setSelectedMenuList] = useState<IResListMenu[]>([]);
-  const [qrisUrl, setQrisUrl] = useState<string | undefined>();
+  const [responseCreateOrder, setResponseCreateOrder] = useState<IResCreateOrder | undefined>();
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
+  const [loadingCheckStatusOrder, setLoadingCheckStatusOrder] = useState<boolean>(false);
   const [dataTotal, setDataTotal] = useState({
     item: 0,
     price: 0,
@@ -52,7 +54,7 @@ export function useHomePage() {
         .then((res: BaseResponse<IResCreateOrder>) => {
           setLoadingSubmit(false);
           if (res.data.response_data.payment_method === ORDER_PAYMENT_METHOD_ENUM.QRIS) {
-            setQrisUrl(res.data.response_data.qris_url);
+            setResponseCreateOrder(res.data.response_data);
           }
         })
         .catch((e) => {
@@ -107,6 +109,25 @@ export function useHomePage() {
     });
   }, [selectedMenuList]);
 
+  function onCheckStatusOrder() {
+    if (responseCreateOrder?.order_id) {
+      setLoadingCheckStatusOrder(true);
+      httpService
+        .GET(ENDPOINT.CHECK_STATUS_ORDER(responseCreateOrder.order_id))
+        .then((res: BaseResponse<IResCheckOrderPaymentStatus>) => {
+          setLoadingCheckStatusOrder(false);
+          setResponseCreateOrder({
+            ...responseCreateOrder,
+            payment_status: res.data.response_data.payment_status,
+          });
+        })
+        .catch((e) => {
+          errorService.fetchApiError(e);
+          setLoadingCheckStatusOrder(false);
+        });
+    }
+  }
+
   function onSelectMenu(e: IResListMenu) {
     const findData = selectedMenuList.find((value) => value.id === e.id);
 
@@ -133,9 +154,11 @@ export function useHomePage() {
     onSelectMenu,
     selectedMenuList,
     onSubmitCreateOrder,
-    qrisUrl,
+    responseCreateOrder,
     loadingSubmit,
+    loadingCheckStatusOrder,
     dataTotal,
-    setQrisUrl,
+    setResponseCreateOrder,
+    onCheckStatusOrder,
   };
 }

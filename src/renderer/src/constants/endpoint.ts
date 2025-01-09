@@ -4,4 +4,5 @@ export const ENDPOINT = {
   GET_CATEGORIES: () => `/master-data/v1/category/list`,
   GET_LIST_MENU: () => `/master-data/v1/menu/list`,
   CREATE_ORDER: () => `/order/v1/create`,
+  CHECK_STATUS_ORDER: (id: string) => `/order/v1/check-status/${id}`,
 };

@@ -109,5 +109,6 @@
   "copy_virtual_account": "copy virtual account",
   "copy_to_clipboard": "copy to clipboard",
   "back_to_home": "back to home",
-  "check_status": "check status"
+  "check_status": "check status",
+  "total_item": "total item"
 }

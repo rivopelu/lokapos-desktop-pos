@@ -3,7 +3,7 @@ import { IResListMenu } from '@renderer/models/response/IResListMenu';
 import { Fragment } from 'react';
 import { MainCard } from '@renderer/components/MainCard';
 import { PageContainer } from '@renderer/components/PageContainer';
-import { Button, CardActionArea } from '@mui/material';
+import { Button, CardActionArea, Divider } from '@mui/material';
 import { NumberFormatterHelper } from '@renderer/helper/number-format-helper';
 import { STYLE_VARIABLE } from '@renderer/constants/style-variable';
 import { LoadingButton } from '@mui/lab';
@@ -61,8 +61,20 @@ export function HomePage() {
                 </MainCard>
               ))}
             </div>
-            <div className=" -translate-y-16">
+            <div className=" -translate-y-16 grid gap-6">
+              <div>
+                <div className="flex justify-between">
+                  <div className="text-slate-500">{t('total_transaction')}</div>
+                  <div>{page.selectedMenuList.length > 0 ? numberFormat.toRupiah(page.dataTotal.price) : '-'}</div>
+                </div>
+                <div className="flex justify-between">
+                  <div className="text-slate-500">{t('total_item')}</div>
+                  <div>{page.selectedMenuList.length > 0 ? page.dataTotal.item : '-'}</div>
+                </div>
+              </div>
+              <Divider />
               <LoadingButton
+                disabled={page.selectedMenuList.length === 0}
                 loading={page.loadingSubmit}
                 variant="contained"
                 fullWidth

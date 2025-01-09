@@ -29,6 +29,10 @@ export function useHomePage() {
   const [selectedMenuList, setSelectedMenuList] = useState<IResListMenu[]>([]);
   const [qrisUrl, setQrisUrl] = useState<string | undefined>();
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
+  const [dataTotal, setDataTotal] = useState({
+    item: 0,
+    price: 0,
+  });
 
   function onSubmitCreateOrder() {
     if (selectedMenuList.length >= 1) {
@@ -90,6 +94,19 @@ export function useHomePage() {
     }
   }
 
+  useEffect(() => {
+    let transaction = 0;
+    let totalItem = 0;
+    selectedMenuList.map((item) => {
+      transaction = transaction + item.price * (item.qty || 1);
+      totalItem = totalItem + (item.qty || 0);
+    });
+    setDataTotal({
+      item: totalItem,
+      price: transaction,
+    });
+  }, [selectedMenuList]);
+
   function onSelectMenu(e: IResListMenu) {
     const findData = selectedMenuList.find((value) => value.id === e.id);
 
@@ -118,6 +135,7 @@ export function useHomePage() {
     onSubmitCreateOrder,
     qrisUrl,
     loadingSubmit,
+    dataTotal,
     setQrisUrl,
   };
 }

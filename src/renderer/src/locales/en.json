@@ -110,5 +110,7 @@
   "copy_to_clipboard": "copy to clipboard",
   "back_to_home": "back to home",
   "check_status": "check status",
-  "total_item": "total item"
+  "total_item": "total item",
+  "cash": "cash",
+  "qris": "qris"
 }

@@ -31,16 +31,17 @@ export function useHomePage() {
   const [responseCreateOrder, setResponseCreateOrder] = useState<IResCreateOrder | undefined>();
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
   const [loadingCheckStatusOrder, setLoadingCheckStatusOrder] = useState<boolean>(false);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<ORDER_PAYMENT_METHOD_ENUM | undefined>();
   const [dataTotal, setDataTotal] = useState({
     item: 0,
     price: 0,
   });
 
   function onSubmitCreateOrder() {
-    if (selectedMenuList.length >= 1) {
+    if (selectedMenuList.length >= 1 && selectedPaymentMethod) {
       setLoadingSubmit(true);
       const data: IReqCreateOrder = {
-        payment_method: ORDER_PAYMENT_METHOD_ENUM.QRIS,
+        payment_method: selectedPaymentMethod,
         menu_list: selectedMenuList.map((e) => {
           return {
             menu_id: e.id,
@@ -146,6 +147,11 @@ export function useHomePage() {
       setSelectedMenuList((v) => [newData, ...v]);
     }
   }
+
+  function checkDisableButtonOrder(): boolean {
+    return !(selectedMenuList.length !== 0 && selectedPaymentMethod);
+  }
+
   return {
     dataMenu,
     listCategory,
@@ -158,7 +164,10 @@ export function useHomePage() {
     loadingSubmit,
     loadingCheckStatusOrder,
     dataTotal,
+    setSelectedPaymentMethod,
+    selectedPaymentMethod,
     setResponseCreateOrder,
     onCheckStatusOrder,
+    checkDisableButtonOrder,
   };
 }

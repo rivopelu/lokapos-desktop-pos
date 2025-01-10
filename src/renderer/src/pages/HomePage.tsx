@@ -4,6 +4,8 @@ import { MainCard } from '@renderer/components/MainCard';
 import { PageContainer } from '@renderer/components/PageContainer';
 import { PopupModal } from '@renderer/components/PopupModal';
 import { STYLE_VARIABLE } from '@renderer/constants/style-variable';
+import { useDataConstants } from '@renderer/constants/useDataConstants';
+import { ORDER_PAYMENT_METHOD_ENUM } from '@renderer/enums/order-payment-method-enum';
 import { ORDER_PAYMENT_STATUS_ENUM } from '@renderer/enums/order-payment-status-enum';
 import { NumberFormatterHelper } from '@renderer/helper/number-format-helper';
 import { IResListMenu } from '@renderer/models/response/IResListMenu';
@@ -15,6 +17,7 @@ import { MdCheckCircle } from 'react-icons/md';
 export function HomePage() {
   const page = useHomePage();
   const numberFormat = new NumberFormatterHelper();
+  const data = useDataConstants();
 
   function productCard(data: IResListMenu) {
     return (
@@ -75,15 +78,33 @@ export function HomePage() {
                 </div>
               </div>
               <Divider />
-              <LoadingButton
-                disabled={page.selectedMenuList.length === 0}
-                loading={page.loadingSubmit}
-                variant="contained"
-                fullWidth
-                onClick={page.onSubmitCreateOrder}
-              >
-                {t('order')}
-              </LoadingButton>
+              <div className="grid gap-4">
+                <div className="grid gap-4 grid-cols-2">
+                  {data.paymentMethodData.map((item) => (
+                    <CardActionArea
+                      key={item.value}
+                      onClick={() => page.setSelectedPaymentMethod(item.value as ORDER_PAYMENT_METHOD_ENUM)}
+                    >
+                      <MainCard>
+                        <div
+                          className={`p-4 flex items-center duration-300 justify-center border ${page.selectedPaymentMethod === item.value ? ' bg-primary-main/10 border-primary-main text-primary-main ' : ''}`}
+                        >
+                          <div className="uppercase font-semibold">{item.label}</div>
+                        </div>
+                      </MainCard>
+                    </CardActionArea>
+                  ))}
+                </div>
+                <LoadingButton
+                  disabled={page.checkDisableButtonOrder()}
+                  loading={page.loadingSubmit}
+                  variant="contained"
+                  fullWidth
+                  onClick={page.onSubmitCreateOrder}
+                >
+                  {t('order')}
+                </LoadingButton>
+              </div>
             </div>
           </div>
         </div>

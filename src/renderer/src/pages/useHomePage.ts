@@ -13,6 +13,8 @@ import { ENDPOINT } from '@renderer/constants/endpoint';
 import { BaseResponse } from '@renderer/models/response/IResModel';
 import { IResCreateOrder } from '@renderer/models/response/IResCreateOrder';
 import { IResCheckOrderPaymentStatus } from '@renderer/models/response/IResCheckOrderPaymentStatus';
+import { UiServices } from '@renderer/service/ui.service';
+import { t } from 'i18next';
 
 export function useHomePage() {
   const dispatch = useAppDispatch();
@@ -20,7 +22,7 @@ export function useHomePage() {
   const masterDataAction = new MasterDataAction();
   const httpService = new HttpService();
   const errorService = new ErrorService();
-
+  const uiService = new UiServices();
   const Account: IAccountSlice = useAppSelector((state) => state.Account);
   const MasterData: IMasterDataSlice = useAppSelector((state) => state.MasterData);
 
@@ -32,6 +34,7 @@ export function useHomePage() {
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
   const [loadingCheckStatusOrder, setLoadingCheckStatusOrder] = useState<boolean>(false);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<ORDER_PAYMENT_METHOD_ENUM | undefined>();
+
   const [dataTotal, setDataTotal] = useState({
     item: 0,
     price: 0,
@@ -56,6 +59,8 @@ export function useHomePage() {
           setLoadingSubmit(false);
           if (res.data.response_data.payment_method === ORDER_PAYMENT_METHOD_ENUM.QRIS) {
             setResponseCreateOrder(res.data.response_data);
+          } else {
+            onSuccessCreateOrder();
           }
         })
         .catch((e) => {
@@ -129,6 +134,10 @@ export function useHomePage() {
     }
   }
 
+  function onCloseCheckOrderStatus() {
+    onSuccessCreateOrder();
+  }
+
   function onSelectMenu(e: IResListMenu) {
     const findData = selectedMenuList.find((value) => value.id === e.id);
 
@@ -152,6 +161,17 @@ export function useHomePage() {
     return !(selectedMenuList.length !== 0 && selectedPaymentMethod);
   }
 
+  function onSuccessCreateOrder() {
+    setSelectedMenuList([]);
+    setResponseCreateOrder(undefined);
+    setSelectedPaymentMethod(undefined);
+    setDataTotal({
+      item: 0,
+      price: 0,
+    });
+    uiService.handleSnackbarSuccess(t('order_success_created'));
+  }
+
   return {
     dataMenu,
     listCategory,
@@ -169,5 +189,6 @@ export function useHomePage() {
     setResponseCreateOrder,
     onCheckStatusOrder,
     checkDisableButtonOrder,
+    onCloseCheckOrderStatus,
   };
 }

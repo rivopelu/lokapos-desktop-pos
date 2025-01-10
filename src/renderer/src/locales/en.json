@@ -112,5 +112,6 @@
   "check_status": "check status",
   "total_item": "total item",
   "cash": "cash",
-  "qris": "qris"
+  "qris": "qris",
+  "order_success_created": "order success created"
 }

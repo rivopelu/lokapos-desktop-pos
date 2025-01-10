@@ -1,20 +1,19 @@
-import { IAccountSlice } from '@renderer/redux/reducers/account.reducer';
-import { useAppDispatch, useAppSelector } from '@renderer/redux/store';
-import { useEffect, useState } from 'react';
+import { ENDPOINT } from '@renderer/constants/endpoint';
+import { ORDER_PAYMENT_METHOD_ENUM } from '@renderer/enums/order-payment-method-enum';
+import { IReqCreateOrder } from '@renderer/models/request/IReqCreateOrder';
+import { IResCheckOrderPaymentStatus } from '@renderer/models/response/IResCheckOrderPaymentStatus';
+import { IResCreateOrder } from '@renderer/models/response/IResCreateOrder';
+import { IResListCategory } from '@renderer/models/response/IResListCategory';
 import { IResListMenu } from '@renderer/models/response/IResListMenu';
+import { BaseResponse } from '@renderer/models/response/IResModel';
 import { MasterDataAction } from '@renderer/redux/actions/master-data.action';
 import { IMasterDataSlice } from '@renderer/redux/reducers/master-data.reducers';
-import { IResListCategory } from '@renderer/models/response/IResListCategory';
-import { HttpService } from '@renderer/service/http.service';
+import { useAppDispatch, useAppSelector } from '@renderer/redux/store';
 import ErrorService from '@renderer/service/error.service';
-import { IReqCreateOrder } from '@renderer/models/request/IReqCreateOrder';
-import { ORDER_PAYMENT_METHOD_ENUM } from '@renderer/enums/order-payment-method-enum';
-import { ENDPOINT } from '@renderer/constants/endpoint';
-import { BaseResponse } from '@renderer/models/response/IResModel';
-import { IResCreateOrder } from '@renderer/models/response/IResCreateOrder';
-import { IResCheckOrderPaymentStatus } from '@renderer/models/response/IResCheckOrderPaymentStatus';
+import { HttpService } from '@renderer/service/http.service';
 import { UiServices } from '@renderer/service/ui.service';
 import { t } from 'i18next';
+import { useEffect, useState } from 'react';
 
 export function useHomePage() {
   const dispatch = useAppDispatch();
@@ -23,7 +22,6 @@ export function useHomePage() {
   const httpService = new HttpService();
   const errorService = new ErrorService();
   const uiService = new UiServices();
-  const Account: IAccountSlice = useAppSelector((state) => state.Account);
   const MasterData: IMasterDataSlice = useAppSelector((state) => state.MasterData);
 
   const [selectedCategory, setSelectedCategory] = useState<string | undefined>();
@@ -69,10 +67,6 @@ export function useHomePage() {
         });
     }
   }
-
-  useEffect(() => {
-    console.log(Account?.getMe?.data);
-  }, [Account?.getMe]);
 
   useEffect(() => {
     dispatch(masterDataAction.getCategory()).then();

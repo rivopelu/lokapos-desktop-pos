@@ -7,7 +7,7 @@ export default function App() {
   return (
     <div className="bg-slate-100 min-h-screen">
       <ToastContainer
-        position="bottom-right"
+        position="bottom-center"
         autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}

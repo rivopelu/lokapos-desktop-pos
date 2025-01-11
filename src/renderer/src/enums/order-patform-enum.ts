@@ -1,0 +1,6 @@
+export enum ORDER_PLATFORM_ENUM {
+  STORE = 'STORE',
+  GO_FOOD = 'GO_FOOD',
+  GRAB_FOOD = 'GRAB_FOOD',
+  SHOPEE_FOOD = 'SHOPEE_FOOD',
+}

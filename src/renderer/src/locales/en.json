@@ -113,5 +113,9 @@
   "total_item": "total item",
   "cash": "cash",
   "qris": "qris",
-  "order_success_created": "order success created"
+  "order_success_created": "order success created",
+  "dine_in": "Dine in",
+  "order_type": "order type",
+  "platform": "platform",
+  "take_away": "Take away"
 }

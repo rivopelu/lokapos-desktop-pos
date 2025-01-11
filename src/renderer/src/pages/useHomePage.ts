@@ -1,5 +1,7 @@
 import { ENDPOINT } from '@renderer/constants/endpoint';
+import { ORDER_PLATFORM_ENUM } from '@renderer/enums/order-patform-enum';
 import { ORDER_PAYMENT_METHOD_ENUM } from '@renderer/enums/order-payment-method-enum';
+import { ORDER_TYPE_ENUM } from '@renderer/enums/order-type-enum';
 import { IReqCreateOrder } from '@renderer/models/request/IReqCreateOrder';
 import { IResCheckOrderPaymentStatus } from '@renderer/models/response/IResCheckOrderPaymentStatus';
 import { IResCreateOrder } from '@renderer/models/response/IResCreateOrder';
@@ -32,17 +34,25 @@ export function useHomePage() {
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
   const [loadingCheckStatusOrder, setLoadingCheckStatusOrder] = useState<boolean>(false);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<ORDER_PAYMENT_METHOD_ENUM | undefined>();
-
+  const [selectedPlatform, setSelectedPlatform] = useState<ORDER_PLATFORM_ENUM | undefined>();
+  const [selectedOrderType, setSelectedOrderType] = useState<ORDER_TYPE_ENUM | undefined>();
+  const [showModalOrder, setShowModalOrder] = useState<boolean>(false);
   const [dataTotal, setDataTotal] = useState({
     item: 0,
     price: 0,
   });
 
+  function onSubmitModalOrder() {
+    onSubmitCreateOrder();
+  }
+
   function onSubmitCreateOrder() {
-    if (selectedMenuList.length >= 1 && selectedPaymentMethod) {
+    if (selectedMenuList.length >= 1 && selectedPaymentMethod && selectedPlatform && selectedOrderType) {
       setLoadingSubmit(true);
       const data: IReqCreateOrder = {
         payment_method: selectedPaymentMethod,
+        platform: selectedPlatform,
+        type: selectedOrderType,
         menu_list: selectedMenuList.map((e) => {
           return {
             menu_id: e.id,
@@ -55,6 +65,7 @@ export function useHomePage() {
         .POST(ENDPOINT.CREATE_ORDER(), data)
         .then((res: BaseResponse<IResCreateOrder>) => {
           setLoadingSubmit(false);
+          setShowModalOrder(false);
           if (res.data.response_data.payment_method === ORDER_PAYMENT_METHOD_ENUM.QRIS) {
             setResponseCreateOrder(res.data.response_data);
           } else {
@@ -152,18 +163,28 @@ export function useHomePage() {
   }
 
   function checkDisableButtonOrder(): boolean {
-    return !(selectedMenuList.length !== 0 && selectedPaymentMethod);
+    return !(selectedMenuList.length !== 0);
   }
 
   function onSuccessCreateOrder() {
     setSelectedMenuList([]);
     setResponseCreateOrder(undefined);
     setSelectedPaymentMethod(undefined);
+    setSelectedPlatform(undefined);
+    setSelectedOrderType(undefined);
     setDataTotal({
       item: 0,
       price: 0,
     });
     uiService.handleSnackbarSuccess(t('order_success_created'));
+  }
+
+  function onCloseModalOrder() {
+    setShowModalOrder(false);
+  }
+
+  function checkButtonModalDisable() {
+    return !(selectedPlatform && selectedOrderType && selectedPaymentMethod);
   }
 
   return {
@@ -184,5 +205,14 @@ export function useHomePage() {
     onCheckStatusOrder,
     checkDisableButtonOrder,
     onCloseCheckOrderStatus,
+    setShowModalOrder,
+    showModalOrder,
+    onCloseModalOrder,
+    setSelectedPlatform,
+    setSelectedOrderType,
+    selectedOrderType,
+    selectedPlatform,
+    onSubmitModalOrder,
+    checkButtonModalDisable,
   };
 }

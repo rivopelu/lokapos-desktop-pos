@@ -5,8 +5,10 @@ import { PageContainer } from '@renderer/components/PageContainer';
 import { PopupModal } from '@renderer/components/PopupModal';
 import { STYLE_VARIABLE } from '@renderer/constants/style-variable';
 import { useDataConstants } from '@renderer/constants/useDataConstants';
+import { ORDER_PLATFORM_ENUM } from '@renderer/enums/order-patform-enum';
 import { ORDER_PAYMENT_METHOD_ENUM } from '@renderer/enums/order-payment-method-enum';
 import { ORDER_PAYMENT_STATUS_ENUM } from '@renderer/enums/order-payment-status-enum';
+import { ORDER_TYPE_ENUM } from '@renderer/enums/order-type-enum';
 import { NumberFormatterHelper } from '@renderer/helper/number-format-helper';
 import { IResListMenu } from '@renderer/models/response/IResListMenu';
 import { useHomePage } from '@renderer/pages/useHomePage';
@@ -79,28 +81,13 @@ export function HomePage() {
               </div>
               <Divider />
               <div className="grid gap-4">
-                <div className="grid gap-4 grid-cols-2">
-                  {data.paymentMethodData.map((item) => (
-                    <CardActionArea
-                      key={item.value}
-                      onClick={() => page.setSelectedPaymentMethod(item.value as ORDER_PAYMENT_METHOD_ENUM)}
-                    >
-                      <MainCard>
-                        <div
-                          className={`p-4 flex items-center duration-300 justify-center border ${page.selectedPaymentMethod === item.value ? ' bg-primary-main/10 border-primary-main text-primary-main ' : ''}`}
-                        >
-                          <div className="uppercase font-semibold">{item.label}</div>
-                        </div>
-                      </MainCard>
-                    </CardActionArea>
-                  ))}
-                </div>
+                
                 <LoadingButton
                   disabled={page.checkDisableButtonOrder()}
                   loading={page.loadingSubmit}
                   variant="contained"
                   fullWidth
-                  onClick={page.onSubmitCreateOrder}
+                  onClick={() => page.setShowModalOrder(true)}
                 >
                   {t('order')}
                 </LoadingButton>
@@ -136,6 +123,74 @@ export function HomePage() {
     );
   }
 
+  function componentModalOrder() {
+    return (
+      <div className="grid gap-4">
+        <div className="grid gap-2 text-center">
+          <div className="w-full text-center capitalize font-semibold">{t('payment_method')}</div>
+          <div className="grid gap-4 grid-cols-2">
+            {data.paymentMethodData.map((item) => (
+              <CardActionArea
+                key={item.value}
+                onClick={() => page.setSelectedPaymentMethod(item.value as ORDER_PAYMENT_METHOD_ENUM)}
+              >
+                <MainCard>
+                  <div
+                    className={`p-4 flex items-center gap-2 duration-300 justify-center border ${page.selectedPaymentMethod === item.value ? ' bg-primary-main/10 border-primary-main text-primary-main ' : ''}`}
+                  >
+                    <div className="uppercase font-semibold">{item.label}</div>
+                  </div>
+                </MainCard>
+              </CardActionArea>
+            ))}
+          </div>
+        </div>
+        <Divider />
+
+        <div className="grid gap-2 text-center">
+          <div className="w-full text-center capitalize font-semibold">{t('order_type')}</div>
+          <div className="grid gap-4 grid-cols-2">
+            {data.orderTypeList.map((item) => (
+              <CardActionArea key={item.value} onClick={() => page.setSelectedOrderType(item.value as ORDER_TYPE_ENUM)}>
+                <MainCard>
+                  <div
+                    className={`p-4 flex items-center gap-2 duration-300 justify-center border ${page.selectedOrderType === item.value ? ' bg-primary-main/10 border-primary-main text-primary-main ' : ''}`}
+                  >
+                    <div className="uppercase font-semibold">{item.label}</div>
+                  </div>
+                </MainCard>
+              </CardActionArea>
+            ))}
+          </div>
+        </div>
+        <Divider />
+        <div className="grid gap-2 text-center">
+          <div className="w-full text-center capitalize font-semibold">{t('platform')}</div>
+          <div className="grid gap-4 grid-cols-4">
+            {data.orderPlatformList.map((item) => (
+              <CardActionArea
+                key={item.value}
+                onClick={() => page.setSelectedPlatform(item.value as ORDER_PLATFORM_ENUM)}
+              >
+                <MainCard>
+                  <div
+                    className={`p-4 flex items-center gap-2 duration-300 justify-center border ${page.selectedPlatform === item.value ? ' bg-primary-main/10 border-primary-main text-primary-main ' : ''}`}
+                  >
+                    <div className="uppercase font-semibold">{item.label}</div>
+                  </div>
+                </MainCard>
+              </CardActionArea>
+            ))}
+          </div>
+          <div className="mt-7"></div>
+          <LoadingButton loading={page.loadingSubmit} onClick={() => page.onSubmitCreateOrder()} disabled={page.checkButtonModalDisable()} variant="contained">
+            {t('submit')}
+          </LoadingButton>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <main className="flex">
       <PopupModal
@@ -143,6 +198,7 @@ export function HomePage() {
         component={componentModalQris()}
         onClose={() => page.setResponseCreateOrder(undefined)}
       />
+      <PopupModal open={page.showModalOrder} component={componentModalOrder()} onClose={page.onCloseModalOrder} />
       <div className={' flex-1 mt-8'}>
         <PageContainer>
           <div className={'grid gap-6'}>

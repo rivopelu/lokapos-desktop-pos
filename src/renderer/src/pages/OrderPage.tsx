@@ -21,13 +21,11 @@ export function OrderPage() {
       value: 'code',
     },
     {
-      align: 'center',
       key: 'total_item',
       headerTitle: t('total_item'),
       layouts: (e: IResListOrder) => <p>{e.total_item} item</p>,
     },
     {
-      align: 'center',
       key: 'order_type',
       headerTitle: t('order_type'),
       layouts: (e: IResListOrder) => <p className="font-semibold uppercase">{textHelper.parseTextEnum(e.type)}</p>,
@@ -42,13 +40,11 @@ export function OrderPage() {
       ),
     },
     {
-      align: 'center',
       key: 'order_status',
       headerTitle: t('order_status'),
       layouts: (e: IResListOrder) => <OrderStatusText text={e.status} />,
     },
     {
-      align: 'center',
       key: 'action',
       headerTitle: '',
       layouts: (e: IResListOrder) => (

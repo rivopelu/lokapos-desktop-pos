@@ -6,9 +6,13 @@ import { t } from 'i18next';
 import { MdInfo } from 'react-icons/md';
 import { useOrderPage } from './useOrderPage';
 import { PopupModal } from '@renderer/components/PopupModal';
+import { TextHelper } from '@renderer/helper/text-helper';
+import { OrderStatusText } from '@renderer/components/OrderStatusText';
+import { PlatformUi } from '@renderer/components/PlatformUi';
 
 export function OrderPage() {
   const page = useOrderPage();
+  const textHelper = new TextHelper();
 
   const tableColumn: ITableColumnData[] = [
     {
@@ -26,19 +30,22 @@ export function OrderPage() {
       align: 'center',
       key: 'order_type',
       headerTitle: t('order_type'),
-      layouts: (e: IResListOrder) => <p className="font-semibold">{e.type}</p>,
+      layouts: (e: IResListOrder) => <p className="font-semibold uppercase">{textHelper.parseTextEnum(e.type)}</p>,
     },
     {
-      align: 'center',
       key: 'platform',
       headerTitle: t('platform'),
-      layouts: (e: IResListOrder) => <p className="font-semibold">{e.platform}</p>,
+      layouts: (e: IResListOrder) => (
+        <div className={'flex items-center justify-between text-center w-full '}>
+          <PlatformUi platform={e.platform} />
+        </div>
+      ),
     },
     {
       align: 'center',
       key: 'order_status',
       headerTitle: t('order_status'),
-      layouts: (e: IResListOrder) => <p className="font-semibold">{e.status}</p>,
+      layouts: (e: IResListOrder) => <OrderStatusText text={e.status} />,
     },
     {
       align: 'center',
@@ -57,16 +64,12 @@ export function OrderPage() {
   function componentDetail() {
     return (
       <div className={'min-w-[600px]'}>
-        <div className={'grid gap-4 grid-cols-2'}>
+        <div className={'grid gap-4 '}>
           {page.dataDetail &&
             page.dataDetail.menu_list.map((item, i) => (
-              <div key={i} className={'border aspect-video bg-contain  '} style={{ background: `URL(${item.image})` }}>
-                <div className={'h-full w-full flex items-end p-3 bg-gradient-to-t from-black/90 to-transparent '}>
-                  <div className={'flex items-center text-white gap-4 justify-between w-full'}>
-                    <p>{item.name}</p>
-                    <p className={'font-semibold'}>x{item.quantity}</p>
-                  </div>
-                </div>
+              <div key={i} className={'flex justify-between text-2xl  border-b pb-2 '}>
+                <p>{item.name}</p>
+                <p className={'font-semibold'}>x{item.quantity}</p>
               </div>
             ))}
         </div>

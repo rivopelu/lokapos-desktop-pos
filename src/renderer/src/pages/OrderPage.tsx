@@ -41,7 +41,7 @@ export function OrderPage() {
     },
     {
       align: 'center',
-      key: 'action',
+      key: 'action',  
       headerTitle: '',
       layouts: () => (
         <div>

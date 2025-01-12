@@ -14,7 +14,7 @@ import { IResListMenu } from '@renderer/models/response/IResListMenu';
 import { useHomePage } from '@renderer/pages/useHomePage';
 import { t } from 'i18next';
 import { Fragment } from 'react';
-import { MdCheckCircle } from 'react-icons/md';
+import { MdAdd, MdCheckCircle, MdRemove } from 'react-icons/md';
 
 export function HomePage() {
   const page = useHomePage();
@@ -23,7 +23,7 @@ export function HomePage() {
 
   function productCard(data: IResListMenu) {
     return (
-      <CardActionArea onClick={() => page.onSelectMenu(data)}>
+      <CardActionArea onClick={() => page.onAddItem(data)}>
         <MainCard>
           <div>
             <div className={'aspect-video'}>
@@ -48,27 +48,42 @@ export function HomePage() {
         >
           <div style={{ height: STYLE_VARIABLE.SIZE.TOP_BAR_HEIGHT }}></div>
           <div className="p-3 flex-1  h-full flex flex-col justify-between">
-            <div className=" grid gap-3">
+            <div className=" grid gap-3 overflow-y-auto">
               {page.selectedMenuList.map((item, i) => (
                 <MainCard key={i} className="p-2">
-                  <div className="flex gap-3">
-                    <div>
-                      <img draggable={'false'} src={item.image} className="object-cover w-32 aspect-video " />
-                    </div>
-                    <div className="flex justify-between w-full">
+                  <div>
+                    <div className="flex gap-3">
                       <div>
-                        <div className="text-slate-600">{item.name}</div>
-                        <div className="font-semibold">
-                          {item.qty ? numberFormat.toRupiah(item.price * item.qty) : ''}
-                        </div>
+                        <img draggable={'false'} src={item.image} className="object-cover w-32 aspect-video " />
                       </div>
-                      <div className="font-semibold">x{item.qty}</div>
+                      <div className="flex justify-between w-full">
+                        <div>
+                          <div className="text-slate-600">{item.name}</div>
+                          <div className="font-semibold">
+                            {item.qty ? numberFormat.toRupiah(item.price * item.qty) : ''}
+                          </div>
+                        </div>
+                        <div className="font-semibold">x{item.qty}</div>
+                      </div>
+                    </div>
+                    <div className="grid gap-4 grid-cols-2 mt-6">
+                      <CardActionArea onClick={() => page.onMinItem(item)}>
+                        <MainCard className="p-3 flex items-center justify-center">
+                          <MdRemove />
+                        </MainCard>
+                      </CardActionArea>
+                      <CardActionArea onClick={() => page.onAddItem(item)}>
+                        <MainCard className="p-3 flex items-center justify-center">
+                          <MdAdd />
+                        </MainCard>
+                      </CardActionArea>
                     </div>
                   </div>
                 </MainCard>
               ))}
+              <div className="h-20"></div>
             </div>
-            <div className=" -translate-y-16 grid gap-6">
+            <div className=" -translate-y-16 grid gap-6 bg-white">
               <div>
                 <div className="flex justify-between">
                   <div className="text-slate-500">{t('total_transaction')}</div>
@@ -81,7 +96,6 @@ export function HomePage() {
               </div>
               <Divider />
               <div className="grid gap-4">
-                
                 <LoadingButton
                   disabled={page.checkDisableButtonOrder()}
                   loading={page.loadingSubmit}
@@ -183,7 +197,12 @@ export function HomePage() {
             ))}
           </div>
           <div className="mt-7"></div>
-          <LoadingButton loading={page.loadingSubmit} onClick={() => page.onSubmitCreateOrder()} disabled={page.checkButtonModalDisable()} variant="contained">
+          <LoadingButton
+            loading={page.loadingSubmit}
+            onClick={() => page.onSubmitCreateOrder()}
+            disabled={page.checkButtonModalDisable()}
+            variant="contained"
+          >
             {t('submit')}
           </LoadingButton>
         </div>

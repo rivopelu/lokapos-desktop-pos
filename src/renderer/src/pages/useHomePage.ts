@@ -145,7 +145,6 @@ export function useHomePage() {
 
   function onSelectMenu(e: IResListMenu) {
     const findData = selectedMenuList.find((value) => value.id === e.id);
-
     if (findData) {
       const filterData: IResListMenu[] = selectedMenuList.filter((v) => v.id != e.id);
       const newData: IResListMenu = {
@@ -187,6 +186,34 @@ export function useHomePage() {
     return !(selectedPlatform && selectedOrderType && selectedPaymentMethod);
   }
 
+  function onAddItem(e: IResListMenu) {
+    setSelectedMenuList((prevSelected) => {
+      const productIndex = prevSelected.findIndex((product) => product.id === e.id);
+
+      if (productIndex !== -1) {
+        return prevSelected.map((product, index) =>
+          index === productIndex ? { ...product, qty: (product?.qty ? product.qty : 0) + 1 } : product,
+        );
+      } else {
+        return [...prevSelected, { ...e, qty: 1 }];
+      }
+    });
+  }
+
+  function onMinItem(e: IResListMenu) {
+    setSelectedMenuList((prevSelected) => {
+      const productIndex = prevSelected.findIndex((product) => product.id === e.id);
+
+      if (productIndex !== -1) {
+        return prevSelected
+          .map((product, index) => (index === productIndex ? { ...product, qty: (product?.qty || 1) - 1 } : product))
+          .filter((product) => product.qty && product.qty > 0);
+      }
+
+      return prevSelected;
+    });
+  }
+
   return {
     dataMenu,
     listCategory,
@@ -214,5 +241,7 @@ export function useHomePage() {
     selectedPlatform,
     onSubmitModalOrder,
     checkButtonModalDisable,
+    onAddItem,
+    onMinItem,
   };
 }

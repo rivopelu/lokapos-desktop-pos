@@ -117,5 +117,8 @@
   "dine_in": "Dine in",
   "order_type": "order type",
   "platform": "platform",
-  "take_away": "Take away"
+  "take_away": "Take away",
+  "order_code": "order code",
+  "order_status": "order status",
+  "detail": "detail"
 }

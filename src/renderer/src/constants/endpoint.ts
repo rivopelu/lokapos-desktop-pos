@@ -5,4 +5,5 @@ export const ENDPOINT = {
   GET_LIST_MENU: () => `/master-data/v1/menu/list`,
   CREATE_ORDER: () => `/order/v1/create`,
   CHECK_STATUS_ORDER: (id: string) => `/order/v1/check-status/${id}`,
+  LIST_ORDER: (param?: string) => `/order/v1/list${param || ''}`,
 };

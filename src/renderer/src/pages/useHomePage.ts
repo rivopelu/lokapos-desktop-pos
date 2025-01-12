@@ -16,6 +16,7 @@ import { HttpService } from '@renderer/service/http.service';
 import { UiServices } from '@renderer/service/ui.service';
 import { t } from 'i18next';
 import { useEffect, useState } from 'react';
+import { ORDER_PAYMENT_STATUS_ENUM } from '@renderer/enums/order-payment-status-enum';
 
 export function useHomePage() {
   const dispatch = useAppDispatch();
@@ -131,6 +132,9 @@ export function useHomePage() {
             ...responseCreateOrder,
             payment_status: res.data.response_data.payment_status,
           });
+          if (res.data.response_data.payment_status === ORDER_PAYMENT_STATUS_ENUM.SUCCESS) {
+            onSuccessCreateOrder();
+          }
         })
         .catch((e) => {
           errorService.fetchApiError(e);

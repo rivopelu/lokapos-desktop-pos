@@ -26,6 +26,7 @@ export function SignInPage() {
                 required
                 name="email"
                 onChange={formik.handleChange}
+                onEnter={() => formik.handleSubmit()}
                 onBlur={formik.handleBlur}
                 errorMessage={formik.touched.email && formik.errors.email}
                 value={formik.values.email}
@@ -36,6 +37,7 @@ export function SignInPage() {
                 placeholder={t('insert_password')}
                 required
                 name="password"
+                onEnter={() => formik.handleSubmit()}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 errorMessage={formik.touched.password && formik.errors.password}

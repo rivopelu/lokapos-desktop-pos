@@ -5,6 +5,7 @@ import { IResListOrder } from '@renderer/models/response/IResListOrder';
 import { t } from 'i18next';
 import { MdInfo } from 'react-icons/md';
 import { useOrderPage } from './useOrderPage';
+import { PopupModal } from '@renderer/components/PopupModal';
 
 export function OrderPage() {
   const page = useOrderPage();
@@ -41,11 +42,11 @@ export function OrderPage() {
     },
     {
       align: 'center',
-      key: 'action',  
+      key: 'action',
       headerTitle: '',
-      layouts: () => (
+      layouts: (e: IResListOrder) => (
         <div>
-          <IconButton>
+          <IconButton onClick={() => page.onClickDetail(e)}>
             <MdInfo />
           </IconButton>
         </div>
@@ -53,8 +54,35 @@ export function OrderPage() {
     },
   ];
 
+  function componentDetail() {
+    return (
+      <div className={'min-w-[600px]'}>
+        <div className={'grid gap-4 grid-cols-2'}>
+          {page.dataDetail &&
+            page.dataDetail.menu_list.map((item, i) => (
+              <div key={i} className={'border aspect-video bg-contain  '} style={{ background: `URL(${item.image})` }}>
+                <div className={'h-full w-full flex items-end p-3 bg-gradient-to-t from-black/90 to-transparent '}>
+                  <div className={'flex items-center text-white gap-4 justify-between w-full'}>
+                    <p>{item.name}</p>
+                    <p className={'font-semibold'}>x{item.quantity}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="py-8">
+      <PopupModal
+        title={page.dataDetail?.code.toString() || ''}
+        onClose={page.onCloseModalDetail}
+        component={componentDetail()}
+        open={page.showModalDetail}
+        loading={page.loadingDetail}
+      />
       <PageContainer>
         <MainTable loading={page.loading} data={page.dataList} columns={tableColumn} />
       </PageContainer>

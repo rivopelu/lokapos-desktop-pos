@@ -20,7 +20,7 @@ export function PopupModal(props: IProps) {
             </IconButton>
           </div>
         )}
-        <div className={'p-6 w-full overflow-y-auto max-h-96'}>{props.component}</div>
+        <div className={`p-6 w-full ${props.isBreakHeight ? 'overflow-y-auto max-h-96' : ''}`}>{props.component}</div>
         {props.footerCard && <div className={'p-6 border-t'}>{props.footerCard}</div>}
       </div>
     </Dialog>
@@ -34,5 +34,6 @@ interface IProps {
   title?: string;
   loading?: boolean;
   size?: 'lg' | 'md';
+  isBreakHeight?: boolean;
   footerCard?: ReactNode;
 }

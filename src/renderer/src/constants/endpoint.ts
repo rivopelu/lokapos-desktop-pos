@@ -6,4 +6,5 @@ export const ENDPOINT = {
   CREATE_ORDER: () => `/order/v1/create`,
   CHECK_STATUS_ORDER: (id: string) => `/order/v1/check-status/${id}`,
   LIST_ORDER: (param?: string) => `/order/v1/list${param || ''}`,
+  DETAIL_ORDER: (id: string) => `/order/v1/detail/${id}`,
 };

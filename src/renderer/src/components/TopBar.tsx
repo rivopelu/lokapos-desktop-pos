@@ -57,9 +57,11 @@ export function TopBar() {
               ))}
             </div>
             <div className="flex items-center justify-end">
-              <IconButton>
-                <Avatar sx={{ width: 32, height: 32 }} src={profile?.data?.avatar} />
-              </IconButton>
+              <Link to={ROUTES.PROFILE()}>
+                <IconButton>
+                  <Avatar sx={{ width: 32, height: 32 }} src={profile?.data?.avatar} />
+                </IconButton>
+              </Link>
             </div>
           </div>
         </PageContainer>

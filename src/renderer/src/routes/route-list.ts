@@ -6,6 +6,7 @@ import { HomePage } from '@renderer/pages/HomePage';
 import { OrderPage } from '@renderer/pages/OrderPage';
 import Element = jsx.JSX.Element;
 import { HistoryPage } from '@renderer/pages/HistoryPage';
+import { ProfilePage } from '@renderer/pages/ProfilePage';
 
 interface IRouteList {
   elements: () => Element;
@@ -32,6 +33,11 @@ export const routeList: IRouteList[] = [
   {
     elements: HistoryPage,
     route: ROUTES.HISTORY(),
+    type: PAGE_TYPE_ENUM.PRIMARY,
+  },
+  {
+    elements: ProfilePage,
+    route: ROUTES.PROFILE(),
     type: PAGE_TYPE_ENUM.PRIMARY,
   },
 ];

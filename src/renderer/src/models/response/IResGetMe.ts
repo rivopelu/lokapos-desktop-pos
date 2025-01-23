@@ -8,5 +8,6 @@ export interface IResGetMe {
   full_name: string;
   email: string;
   id: string;
+  role?: string;
   business?: IResBusinessDetail;
 }

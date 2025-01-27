@@ -5,20 +5,24 @@ import { ENDPOINT } from '@renderer/constants/endpoint';
 import { BaseResponse } from '@renderer/models/response/IResModel';
 import { IResListCategory } from '@renderer/models/response/IResListCategory';
 import { IResListMenu } from '@renderer/models/response/IResListMenu';
+import { IResListMerchant } from '@renderer/models/response/IResListMerchant';
 
 export class MasterDataAction extends BaseActions {
   private action = MasterDataSlice.actions;
 
-  getMenu(){
-    return async (dispatch : Dispatch) => {
-      dispatch(this.action.getMenu({data : undefined, loading : true}))
-      await this.httpService.GET(ENDPOINT.GET_LIST_MENU()).then((res : BaseResponse<IResListMenu[]>) => {
-        dispatch(this.action.getMenu({data : res.data.response_data, loading : false}))
-      }).catch(e => {
-        this.errorService.fetchApiError(e)
-        dispatch(this.action.getMenu({loading: false, data : undefined}))
-      })
-    }
+  getMenu() {
+    return async (dispatch: Dispatch) => {
+      dispatch(this.action.getMenu({ data: undefined, loading: true }));
+      await this.httpService
+        .GET(ENDPOINT.GET_LIST_MENU())
+        .then((res: BaseResponse<IResListMenu[]>) => {
+          dispatch(this.action.getMenu({ data: res.data.response_data, loading: false }));
+        })
+        .catch((e) => {
+          this.errorService.fetchApiError(e);
+          dispatch(this.action.getMenu({ loading: false, data: undefined }));
+        });
+    };
   }
 
   getCategory() {
@@ -32,6 +36,21 @@ export class MasterDataAction extends BaseActions {
         .catch((e) => {
           this.errorService.fetchApiError(e);
           dispatch(this.action.getCategory({ loading: false, data: undefined }));
+        });
+    };
+  }
+
+  getListMerchant() {
+    return async (dispatch: Dispatch) => {
+      dispatch(this.action.getListMerchant({ data: undefined, loading: true }));
+      await this.httpService
+        .GET(ENDPOINT.LIST_MERCHANT())
+        .then((res: BaseResponse<IResListMerchant[]>) => {
+          dispatch(this.action.getListMerchant({ data: res.data.response_data, loading: false }));
+        })
+        .catch((e) => {
+          this.errorService.fetchApiError(e);
+          dispatch(this.action.getListMerchant({ loading: false, data: undefined }));
         });
     };
   }

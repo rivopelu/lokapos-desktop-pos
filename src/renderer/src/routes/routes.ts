@@ -4,4 +4,5 @@ export const ROUTES = {
   HISTORY: () => `/history`,
   ORDER: () => `/order`,
   PROFILE: () => `/profile`,
+  SELECT_MERCHANT: () => '/select-merchant',
 };

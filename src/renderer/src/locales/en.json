@@ -121,5 +121,7 @@
   "order_code": "order code",
   "order_status": "order status",
   "detail": "detail",
-  "done_order" : "Done order"
+  "done_order" : "Done order",
+  "select_merchant" : "select merchant",
+  "select_merchant_description_card" : "please select the merchant"
 }

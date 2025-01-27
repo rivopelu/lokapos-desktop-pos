@@ -10,4 +10,7 @@ export interface IResGetMe {
   id: string;
   role?: string;
   business?: IResBusinessDetail;
+  merchant_id?: string;
+  merchant_name?: string;
+  merchant_address?: string;
 }

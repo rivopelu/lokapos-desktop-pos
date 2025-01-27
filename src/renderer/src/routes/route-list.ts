@@ -7,6 +7,7 @@ import { OrderPage } from '@renderer/pages/OrderPage';
 import Element = jsx.JSX.Element;
 import { HistoryPage } from '@renderer/pages/HistoryPage';
 import { ProfilePage } from '@renderer/pages/ProfilePage';
+import { SelectMerchantPage } from '@renderer/pages/SelectMerchantPage';
 
 interface IRouteList {
   elements: () => Element;
@@ -39,5 +40,11 @@ export const routeList: IRouteList[] = [
     elements: ProfilePage,
     route: ROUTES.PROFILE(),
     type: PAGE_TYPE_ENUM.PRIMARY,
+  },
+
+  {
+    elements: SelectMerchantPage,
+    route: ROUTES.SELECT_MERCHANT(),
+    type: PAGE_TYPE_ENUM.FULL_PAGE,
   },
 ];

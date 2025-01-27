@@ -8,4 +8,6 @@ export const ENDPOINT = {
   LIST_ORDER: (param?: string) => `/order/v1/list${param || ''}`,
   DETAIL_ORDER: (id: string) => `/order/v1/detail/${id}`,
   READY_ORDER: (id: string) => `/order/v1/ready/${id}`,
+  LIST_MERCHANT: () => '/merchant/v1/list',
+  SELECT_MERCHANT: (id: string) => `/merchant/v1/select-merchant?merchant_id=${id}`,
 };

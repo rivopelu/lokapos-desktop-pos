@@ -27,6 +27,9 @@ export function useHomePage() {
   const uiService = new UiServices();
   const MasterData: IMasterDataSlice = useAppSelector((state) => state.MasterData);
 
+  const loadingListCategory = MasterData?.listCategories?.loading;
+  const loadingDataMenu = MasterData.listMenu?.loading;
+
   const [selectedCategory, setSelectedCategory] = useState<string | undefined>();
   const [listCategory, setListCategory] = useState<IResListCategory[]>([]);
   const [dataMenu, setDataMenu] = useState<IResListMenu[]>([]);
@@ -244,6 +247,8 @@ export function useHomePage() {
     selectedOrderType,
     selectedPlatform,
     onSubmitModalOrder,
+    loadingListCategory,
+    loadingDataMenu,
     checkButtonModalDisable,
     onAddItem,
     onMinItem,

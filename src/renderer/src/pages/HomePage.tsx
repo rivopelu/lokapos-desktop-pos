@@ -1,5 +1,5 @@
 import { LoadingButton } from '@mui/lab';
-import { CardActionArea, Divider } from '@mui/material';
+import { CardActionArea, Divider, Skeleton } from '@mui/material';
 import { MainCard } from '@renderer/components/MainCard';
 import { PageContainer } from '@renderer/components/PageContainer';
 import { PopupModal } from '@renderer/components/PopupModal';
@@ -21,17 +21,30 @@ export function HomePage() {
   const numberFormat = new NumberFormatterHelper();
   const data = useDataConstants();
 
-  function productCard(data: IResListMenu) {
+  function productCard(data?: IResListMenu, loading?: boolean) {
     return (
-      <CardActionArea onClick={() => page.onAddItem(data)}>
+      <CardActionArea onClick={() => data && page.onAddItem(data)}>
         <MainCard>
           <div>
             <div className={'aspect-video'}>
-              <img src={data.image} draggable={false} alt={data.name} className={'aspect-video  object-cover'} />
+              {loading ? (
+                <Skeleton variant={'rectangular'} height={'100%'} />
+              ) : (
+                <img src={data?.image} draggable={false} alt={data?.name} className={'aspect-video  object-cover'} />
+              )}
             </div>
             <div className={'p-3  h-full grid gap-1'}>
-              <p className={'line-clamp-1 text-slate-600'}>{data.name}</p>
-              <p className="font-semibold">{data.price ? numberFormat.toRupiah(data.price) : '-'}</p>
+              {loading ? (
+                <>
+                  <Skeleton />
+                  <Skeleton width={'75%'} />
+                </>
+              ) : (
+                <>
+                  <p className={'line-clamp-1 text-slate-600'}>{data?.name}</p>
+                  <p className="font-semibold">{data?.price ? numberFormat.toRupiah(data.price) : '-'}</p>
+                </>
+              )}
             </div>
           </div>
         </MainCard>
@@ -222,20 +235,40 @@ export function HomePage() {
         <PageContainer>
           <div className={'grid gap-6'}>
             <div className={'grid grid-cols-4 gap-4'}>
-              {page.listCategory.map((item, i) => (
-                <CardActionArea key={i} onClick={() => page.onSelectCategory(item)} sx={{ background: 'white' }}>
-                  <div
-                    className={`bg-white flex items-center justify-center duration-500 p-4 border ${page.selectedCategory === item.id ? 'bg-primary-main/10 border-primary-main text-primary-main ' : ''}`}
-                  >
-                    <div className={'uppercase font-semibold'}>{item.name}</div>
-                  </div>
-                </CardActionArea>
-              ))}
+              {page.loadingListCategory ? (
+                <>
+                  {Array.from({ length: 4 }).map((_, i) => (
+                    <Skeleton key={i} height={80} />
+                  ))}
+                </>
+              ) : (
+                <>
+                  {page.listCategory.map((item, i) => (
+                    <CardActionArea key={i} onClick={() => page.onSelectCategory(item)} sx={{ background: 'white' }}>
+                      <div
+                        className={`bg-white flex items-center justify-center duration-500 p-4 border ${page.selectedCategory === item.id ? 'bg-primary-main/10 border-primary-main text-primary-main ' : ''}`}
+                      >
+                        <div className={'uppercase font-semibold'}>{item.name}</div>
+                      </div>
+                    </CardActionArea>
+                  ))}
+                </>
+              )}
             </div>
             <div className={'grid gap-4 grid-cols-4'}>
-              {page.dataMenu.map((item, i) => (
-                <Fragment key={i}>{productCard(item)}</Fragment>
-              ))}
+              {page.loadingDataMenu ? (
+                <>
+                  {Array.from({ length: 12 }).map((_, i) => (
+                    <Fragment key={i}>{productCard(undefined, true)}</Fragment>
+                  ))}
+                </>
+              ) : (
+                <>
+                  {page.dataMenu.map((item, i) => (
+                    <Fragment key={i}>{productCard(item)}</Fragment>
+                  ))}
+                </>
+              )}
             </div>
           </div>
         </PageContainer>

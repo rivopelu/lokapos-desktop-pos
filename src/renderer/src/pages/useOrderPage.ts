@@ -27,7 +27,7 @@ export function useOrderPage() {
 
   useEffect(() => {
     if (Order?.listOrder?.data) {
-      setDataList(Order?.listOrder?.data);
+      setDataList(Order.listOrder.data);
     }
   }, [Order?.listOrder?.data]);
 

@@ -1,4 +1,4 @@
-import { IconButton } from '@mui/material';
+import { Button, CircularProgress, IconButton } from '@mui/material';
 import { ITableColumnData, MainTable } from '@renderer/components/MainTable';
 import { PageContainer } from '@renderer/components/PageContainer';
 import { IResListOrder } from '@renderer/models/response/IResListOrder';
@@ -9,6 +9,7 @@ import { PopupModal } from '@renderer/components/PopupModal';
 import { TextHelper } from '@renderer/helper/text-helper';
 import { OrderStatusText } from '@renderer/components/OrderStatusText';
 import { PlatformUi } from '@renderer/components/PlatformUi';
+import { CardBody, MainCard } from '@renderer/components/MainCard';
 
 export function OrderPage() {
   const page = useOrderPage();
@@ -61,14 +62,29 @@ export function OrderPage() {
     return (
       <div className={'min-w-[600px]'}>
         <div className={'grid gap-4 '}>
-          {page.dataDetail &&
+          {page.loadingDetail ? (
+            <div className={'h-40 flex items-center justify-center'}>
+              <CircularProgress />
+            </div>
+          ) : (
+            page.dataDetail &&
             page.dataDetail.menu_list.map((item, i) => (
-              <div key={i} className={'flex justify-between text-2xl  border-b pb-2 '}>
-                <p>{item.name}</p>
-                <p className={'font-semibold'}>x{item.quantity}</p>
-              </div>
-            ))}
+              <MainCard key={i}>
+                <CardBody>
+                  <div className={'flex justify-between text-2xl   pb-2 '}>
+                    <p>{item.name}</p>
+                    <p className={'font-semibold'}>x{item.quantity}</p>
+                  </div>
+                </CardBody>
+              </MainCard>
+            ))
+          )}
         </div>
+        {page.dataDetail && (
+          <div className={'mt-5 grid'}>
+            <Button variant={'contained'}>{t('done_order')}</Button>
+          </div>
+        )}
       </div>
     );
   }

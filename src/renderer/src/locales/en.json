@@ -120,5 +120,6 @@
   "take_away": "Take away",
   "order_code": "order code",
   "order_status": "order status",
-  "detail": "detail"
+  "detail": "detail",
+  "done_order" : "Done order"
 }

@@ -17,8 +17,8 @@ export function useSignInPage() {
   const authService = new AuthServices();
 
   const initState: IReqSignIn = {
-    email: 'lokapos.indonesia@gmail.com',
-    password: '@Lokapos123',
+    email: 'contactrivopelu@gmail.com',
+    password: 'WZNE2KMs',
   };
 
   const validationSchema = yup.object().shape({

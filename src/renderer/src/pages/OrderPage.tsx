@@ -1,4 +1,4 @@
-import { Button, CircularProgress, IconButton } from '@mui/material';
+import { CircularProgress, IconButton } from '@mui/material';
 import { ITableColumnData, MainTable } from '@renderer/components/MainTable';
 import { PageContainer } from '@renderer/components/PageContainer';
 import { IResListOrder } from '@renderer/models/response/IResListOrder';
@@ -10,6 +10,7 @@ import { TextHelper } from '@renderer/helper/text-helper';
 import { OrderStatusText } from '@renderer/components/OrderStatusText';
 import { PlatformUi } from '@renderer/components/PlatformUi';
 import { CardBody, MainCard } from '@renderer/components/MainCard';
+import { LoadingButton } from '@mui/lab';
 
 export function OrderPage() {
   const page = useOrderPage();
@@ -62,6 +63,7 @@ export function OrderPage() {
     return (
       <div className={'min-w-[600px]'}>
         <div className={'grid gap-4 '}>
+          <div>{page?.dataDetail?.id || ''}</div>
           {page.loadingDetail ? (
             <div className={'h-40 flex items-center justify-center'}>
               <CircularProgress />
@@ -82,7 +84,9 @@ export function OrderPage() {
         </div>
         {page.dataDetail && (
           <div className={'mt-5 grid'}>
-            <Button variant={'contained'}>{t('done_order')}</Button>
+            <LoadingButton loading={page.loadingReadyOrder} onClick={() => page.onReadyOrder()} variant={'contained'}>
+              {t('done_order')}
+            </LoadingButton>
           </div>
         )}
       </div>

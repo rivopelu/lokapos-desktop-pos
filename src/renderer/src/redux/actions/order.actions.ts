@@ -9,9 +9,9 @@ import { IResDetailOrder } from '@renderer/models/response/IResDetailOrder';
 export class OrderAction extends BaseActions {
   private action = OrderSlice.actions;
 
-  getListOrder(param?: string) {
+  getListOrder(param?: string, loading?: boolean) {
     return async (dispatch: Dispatch) => {
-      dispatch(this.action.getListOrder({ loading: true, data: undefined }));
+      dispatch(this.action.getListOrder({ loading: loading, data: undefined }));
       await this.httpService
         .GET(ENDPOINT.LIST_ORDER(param))
         .then((res: BaseResponsePaginated<IResListOrder[]>) => {

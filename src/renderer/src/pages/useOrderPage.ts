@@ -4,12 +4,19 @@ import { IOrderSlice } from '@renderer/redux/reducers/order.reducer';
 import { useAppDispatch, useAppSelector } from '@renderer/redux/store';
 import { useEffect, useState } from 'react';
 import { IResDetailOrder } from '@renderer/models/response/IResDetailOrder';
+import { ENDPOINT } from '@renderer/constants/endpoint';
+import { HttpService } from '@renderer/service/http.service';
+import ErrorService from '@renderer/service/error.service';
 
 export function useOrderPage() {
   const [dataList, setDataList] = useState<IResListOrder[]>([]);
+  const [loadingReadyOrder, setLoadingReadyOrder] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
+
+  const httpService = new HttpService();
   const orderAction = new OrderAction();
+  const errorService = new ErrorService();
 
   const Order: IOrderSlice = useAppSelector((state) => state.Order);
   const loading = Order?.listOrder?.loading;
@@ -19,15 +26,17 @@ export function useOrderPage() {
   const [dataDetail, setDataDetail] = useState<IResDetailOrder | undefined>();
 
   useEffect(() => {
-    setDataList(Order?.listOrder?.data || []);
+    if (Order?.listOrder?.data) {
+      setDataList(Order?.listOrder?.data);
+    }
   }, [Order?.listOrder?.data]);
 
   useEffect(() => {
     setDataDetail(Order?.detailOrder?.data);
   }, [Order?.detailOrder?.data]);
 
-  function fetchData() {
-    dispatch(orderAction.getListOrder()).then();
+  function fetchData(loading?: boolean) {
+    dispatch(orderAction.getListOrder(undefined, loading)).then();
   }
 
   function onClickDetail(item: IResListOrder) {
@@ -43,8 +52,26 @@ export function useOrderPage() {
   }
 
   useEffect(() => {
-    fetchData();
+    fetchData(true);
   }, []);
+
+  function onReadyOrder() {
+    if (dataDetail?.id) {
+      setLoadingReadyOrder(true);
+
+      httpService
+        .PATCH(ENDPOINT.READY_ORDER(dataDetail?.id))
+        .then(() => {
+          setLoadingReadyOrder(false);
+          setShowModalDetail(false);
+          fetchData();
+        })
+        .catch((e) => {
+          errorService.fetchApiError(e);
+          setLoadingReadyOrder(false);
+        });
+    }
+  }
 
   return {
     dataList,
@@ -52,6 +79,8 @@ export function useOrderPage() {
     onClickDetail,
     setShowModalDetail,
     showModalDetail,
+    onReadyOrder,
+    loadingReadyOrder,
     loadingDetail,
     dataDetail,
     onCloseModalDetail,

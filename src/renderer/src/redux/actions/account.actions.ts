@@ -22,4 +22,19 @@ export class AccountAction extends BaseActions {
         });
     };
   }
+
+  getListAccountForShift() {
+    return async (dispatch: Dispatch) => {
+      dispatch(this.action.listAccountForShift({ loading: true, data: undefined }));
+      await this.httpService
+        .GET(ENDPOINT.LIST_ACCOUNT_SHIFT())
+        .then((res: BaseResponse<IResListAccount[]>) => {
+          dispatch(this.action.listAccountForShift({ loading: false, data: res.data.response_data }));
+        })
+        .catch((e) => {
+          this.errorService.fetchApiError(e);
+          dispatch(this.action.listAccountForShift({ loading: false, data: undefined }));
+        });
+    };
+  }
 }

@@ -10,4 +10,5 @@ export const ENDPOINT = {
   READY_ORDER: (id: string) => `/order/v1/ready/${id}`,
   LIST_MERCHANT: () => '/merchant/v1/list',
   SELECT_MERCHANT: (id: string) => `/merchant/v1/select-merchant?merchant_id=${id}`,
+  LIST_ACCOUNT_SHIFT: () => `/account/v1/admin/account-list`,
 };

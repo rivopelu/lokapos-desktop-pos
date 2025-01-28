@@ -1,6 +1,6 @@
 import { PageContainer } from '@renderer/components/PageContainer';
 import { CardBody, MainCard } from '@renderer/components/MainCard';
-import { useProfilePage } from '@renderer/pages/useProfilePage';
+import { useProfilePage } from '@renderer/pages/profile/useProfilePage';
 import { Avatar, Button } from '@mui/material';
 import { t } from 'i18next';
 import { MdLogout } from 'react-icons/md';

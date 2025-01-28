@@ -13,4 +13,6 @@ export interface IResGetMe {
   merchant_id?: string;
   merchant_name?: string;
   merchant_address?: string;
+  shift_id?: string;
+  is_active_shift: boolean;
 }

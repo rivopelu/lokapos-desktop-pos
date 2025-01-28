@@ -5,4 +5,5 @@ export const ROUTES = {
   ORDER: () => `/order`,
   PROFILE: () => `/profile`,
   SELECT_MERCHANT: () => '/select-merchant',
+  START_SHIFT: () => '/shift/start',
 };

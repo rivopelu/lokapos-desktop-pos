@@ -17,6 +17,7 @@ import { UiServices } from '@renderer/service/ui.service';
 import { t } from 'i18next';
 import { useEffect, useState } from 'react';
 import { ORDER_PAYMENT_STATUS_ENUM } from '@renderer/enums/order-payment-status-enum';
+import { IAccountSlice } from '@renderer/redux/reducers/account.reducer';
 
 export function useHomePage() {
   const dispatch = useAppDispatch();
@@ -26,6 +27,7 @@ export function useHomePage() {
   const errorService = new ErrorService();
   const uiService = new UiServices();
   const MasterData: IMasterDataSlice = useAppSelector((state) => state.MasterData);
+  const Account: IAccountSlice = useAppSelector((state) => state.Account);
 
   const loadingListCategory = MasterData?.listCategories?.loading;
   const loadingDataMenu = MasterData.listMenu?.loading;
@@ -41,10 +43,20 @@ export function useHomePage() {
   const [selectedPlatform, setSelectedPlatform] = useState<ORDER_PLATFORM_ENUM | undefined>();
   const [selectedOrderType, setSelectedOrderType] = useState<ORDER_TYPE_ENUM | undefined>();
   const [showModalOrder, setShowModalOrder] = useState<boolean>(false);
+  const [showModalShift, setShowModalShift] = useState<boolean>(false);
+
   const [dataTotal, setDataTotal] = useState({
     item: 0,
     price: 0,
   });
+
+  useEffect(() => {
+    setShowModalShift(!Account?.getMe?.data?.is_active_shift);
+  }, [Account?.getMe?.data]);
+
+  function onCloseModalShift() {
+    setShowModalShift(false);
+  }
 
   function onSubmitModalOrder() {
     onSubmitCreateOrder();
@@ -252,5 +264,7 @@ export function useHomePage() {
     checkButtonModalDisable,
     onAddItem,
     onMinItem,
+    onCloseModalShift,
+    showModalShift,
   };
 }

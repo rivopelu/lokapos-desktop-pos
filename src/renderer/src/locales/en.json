@@ -123,5 +123,8 @@
   "detail": "detail",
   "done_order" : "Done order",
   "select_merchant" : "select merchant",
-  "select_merchant_description_card" : "please select the merchant"
+  "select_merchant_description_card" : "please select the merchant",
+  "start_shift" : "start shift",
+  "team" : "team",
+  "select_shift_team": "Select shift team"
 }

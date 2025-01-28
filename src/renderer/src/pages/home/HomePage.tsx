@@ -1,5 +1,5 @@
 import { LoadingButton } from '@mui/lab';
-import { CardActionArea, Divider, Skeleton } from '@mui/material';
+import { Button, CardActionArea, Divider, Skeleton } from '@mui/material';
 import { MainCard } from '@renderer/components/MainCard';
 import { PageContainer } from '@renderer/components/PageContainer';
 import { PopupModal } from '@renderer/components/PopupModal';
@@ -11,15 +11,18 @@ import { ORDER_PAYMENT_STATUS_ENUM } from '@renderer/enums/order-payment-status-
 import { ORDER_TYPE_ENUM } from '@renderer/enums/order-type-enum';
 import { NumberFormatterHelper } from '@renderer/helper/number-format-helper';
 import { IResListMenu } from '@renderer/models/response/IResListMenu';
-import { useHomePage } from '@renderer/pages/useHomePage';
+import { useHomePage } from '@renderer/pages/home/useHomePage';
 import { t } from 'i18next';
 import { Fragment } from 'react';
 import { MdAdd, MdCheckCircle, MdRemove } from 'react-icons/md';
+import { ROUTES } from '@renderer/routes/routes';
+import { useNavigate } from 'react-router-dom';
 
 export function HomePage() {
   const page = useHomePage();
   const numberFormat = new NumberFormatterHelper();
   const data = useDataConstants();
+  const navigate = useNavigate();
 
   function productCard(data?: IResListMenu, loading?: boolean) {
     return (
@@ -67,7 +70,12 @@ export function HomePage() {
                   <div>
                     <div className="flex gap-3">
                       <div>
-                        <img draggable={'false'} src={item.image} className="object-cover w-32 aspect-video " />
+                        <img
+                          alt={item.name}
+                          draggable={'false'}
+                          src={item.image}
+                          className="object-cover w-32 aspect-video "
+                        />
                       </div>
                       <div className="flex justify-between w-full">
                         <div>
@@ -146,6 +154,17 @@ export function HomePage() {
         <LoadingButton onClick={page.onCheckStatusOrder} loading={page.loadingCheckStatusOrder} fullWidth>
           {t('check_status')}
         </LoadingButton>
+      </div>
+    );
+  }
+
+  function componentModalShift() {
+    return (
+      <div className="w-96 grid gap-7">
+        <h2>HELLO WORLD</h2>
+        <Button onClick={() => navigate(ROUTES.START_SHIFT())} variant={'contained'}>
+          {t('start_shift')}
+        </Button>
       </div>
     );
   }
@@ -231,6 +250,7 @@ export function HomePage() {
         onClose={() => page.setResponseCreateOrder(undefined)}
       />
       <PopupModal open={page.showModalOrder} component={componentModalOrder()} onClose={page.onCloseModalOrder} />
+      <PopupModal open={page.showModalShift} component={componentModalShift()} onClose={page.onCloseModalShift} />
       <div className={' flex-1 mt-8'}>
         <PageContainer>
           <div className={'grid gap-6'}>

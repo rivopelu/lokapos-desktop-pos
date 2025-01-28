@@ -1,4 +1,4 @@
-import { useSelectMerchantPage } from '@renderer/pages/useSelectMerchantPage';
+import { useSelectMerchantPage } from '@renderer/pages/select-merchant/useSelectMerchantPage';
 import { InputSelect } from '@renderer/components/InputSelect';
 import { t } from 'i18next';
 import { CardBody, MainCard } from '@renderer/components/MainCard';

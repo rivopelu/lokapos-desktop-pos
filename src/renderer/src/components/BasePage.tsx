@@ -6,6 +6,7 @@ import { AccountAction } from '@renderer/redux/actions/account.actions';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ROUTES } from '@renderer/routes/routes';
 import { IAccountSlice } from '@renderer/redux/reducers/account.reducer';
+import { SecondaryTopBar } from '@renderer/components/SecondaryTopBar';
 
 export function BasePage(props: IProps) {
   const dispatch = useAppDispatch();
@@ -30,6 +31,13 @@ export function BasePage(props: IProps) {
     return (
       <div>
         <TopBar />
+        <div>{props.children}</div>
+      </div>
+    );
+  } else if (props.type === PAGE_TYPE_ENUM.SECONDARY) {
+    return (
+      <div>
+        <SecondaryTopBar />
         <div>{props.children}</div>
       </div>
     );

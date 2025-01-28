@@ -2,10 +2,12 @@ import { Route, Routes } from 'react-router-dom';
 import { BasePage } from './components/BasePage';
 import { routeList } from './routes/route-list';
 import { ToastContainer } from 'react-toastify';
+import { MainLoading } from '@renderer/components/MainLoading';
 
 export default function App() {
   return (
-    <div className="bg-slate-100 min-h-screen">
+    <div className="bg-slate-100 min-h-screen relative">
+      <MainLoading />
       <ToastContainer
         position="bottom-center"
         autoClose={3000}

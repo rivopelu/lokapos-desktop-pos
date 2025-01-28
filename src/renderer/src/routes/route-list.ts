@@ -39,7 +39,7 @@ export const routeList: IRouteList[] = [
   {
     elements: ProfilePage,
     route: ROUTES.PROFILE(),
-    type: PAGE_TYPE_ENUM.PRIMARY,
+    type: PAGE_TYPE_ENUM.SECONDARY,
   },
 
   {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Avatar, IconButton } from '@mui/material';
+import { Avatar, Button, IconButton } from '@mui/material';
 import { differenceInSeconds } from 'date-fns';
 import { useAppSelector } from '@renderer/redux/store';
 import { ROUTES } from '@renderer/routes/routes';
@@ -28,7 +28,11 @@ export function ActionButtonHeader() {
 
   return (
     <div className="flex items-center gap-2">
-      {profile?.start_shift_date && elapsedTime}
+      {profile?.start_shift_date && (
+        <Button color={'success'} startIcon={<div className={'h-2 w-2 bg-green-600 rounded-full'}></div>}>
+          {elapsedTime}
+        </Button>
+      )}
       <Link to={ROUTES.PROFILE()}>
         <IconButton>
           <Avatar sx={{ width: 32, height: 32 }} src={profile?.avatar} />

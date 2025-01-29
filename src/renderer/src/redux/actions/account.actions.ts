@@ -4,6 +4,7 @@ import { AccountSlice } from '../reducers/account.reducer';
 import { ENDPOINT } from '@renderer/constants/endpoint';
 import { BaseResponse } from '@renderer/models/response/IResModel';
 import { IResGetMe } from '@renderer/models/response/IResGetMe';
+import { IResListAccount } from '@renderer/models/response/IResListAccount';
 
 export class AccountAction extends BaseActions {
   private action = AccountSlice.actions;

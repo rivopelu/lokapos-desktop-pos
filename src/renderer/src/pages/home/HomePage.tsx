@@ -161,7 +161,10 @@ export function HomePage() {
   function componentModalShift() {
     return (
       <div className="w-96 grid gap-7">
-        <h2>HELLO WORLD</h2>
+        <div className={'flex items-center justify-center flex-col gap-2 text-center'}>
+          <p className={'font-semibold text-2xl'}>{t('modal_shift_title')}</p>
+          <p className={'text-slate-500 '}>{t('modal_shift_description')}</p>
+        </div>
         <Button onClick={() => navigate(ROUTES.START_SHIFT())} variant={'contained'}>
           {t('start_shift')}
         </Button>

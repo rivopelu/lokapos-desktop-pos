@@ -51,8 +51,10 @@ export function useHomePage() {
   });
 
   useEffect(() => {
-    setShowModalShift(!Account?.getMe?.data?.is_active_shift);
-  }, [Account?.getMe?.data]);
+    if (Account?.getMe?.loading == false) {
+      setShowModalShift(!Account?.getMe?.data?.is_active_shift);
+    }
+  }, [Account?.getMe, dataMenu]);
 
   function onCloseModalShift() {
     setShowModalShift(false);

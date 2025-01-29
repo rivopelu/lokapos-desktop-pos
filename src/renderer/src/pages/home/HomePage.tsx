@@ -1,5 +1,5 @@
 import { LoadingButton } from '@mui/lab';
-import { Button, CardActionArea, Divider, Skeleton } from '@mui/material';
+import { Alert, AlertTitle, Button, CardActionArea, Divider, IconButton, Skeleton } from '@mui/material';
 import { MainCard } from '@renderer/components/MainCard';
 import { PageContainer } from '@renderer/components/PageContainer';
 import { PopupModal } from '@renderer/components/PopupModal';
@@ -14,7 +14,7 @@ import { IResListMenu } from '@renderer/models/response/IResListMenu';
 import { useHomePage } from '@renderer/pages/home/useHomePage';
 import { t } from 'i18next';
 import { Fragment } from 'react';
-import { MdAdd, MdCheckCircle, MdRemove } from 'react-icons/md';
+import { MdAdd, MdCheckCircle, MdClose, MdRemove } from 'react-icons/md';
 import { ROUTES } from '@renderer/routes/routes';
 import { useNavigate } from 'react-router-dom';
 
@@ -257,6 +257,20 @@ export function HomePage() {
       <div className={' flex-1 mt-8'}>
         <PageContainer>
           <div className={'grid gap-6'}>
+            {page.profile?.merchant_address && page.showAlertMerchant && (
+              <Alert
+                action={
+                  <IconButton onClick={() => page.setShowAlertMerchant(false)}>
+                    <MdClose />
+                  </IconButton>
+                }
+                variant={'outlined'}
+                severity="info"
+              >
+                <AlertTitle>{t('you_in_merchant', { name: page.profile.merchant_name })}</AlertTitle>
+                <p>{page.profile.merchant_address}</p>
+              </Alert>
+            )}
             <div className={'grid grid-cols-4 gap-4'}>
               {page.loadingListCategory ? (
                 <>

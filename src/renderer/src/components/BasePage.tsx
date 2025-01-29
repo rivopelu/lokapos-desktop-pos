@@ -30,8 +30,10 @@ export function BasePage(props: IProps) {
   if (props.type === PAGE_TYPE_ENUM.PRIMARY) {
     return (
       <div>
-        <TopBar />
-        <div>{props.children}</div>
+        <div className={'relative'}>
+          <TopBar />
+          <div>{props.children}</div>
+        </div>
       </div>
     );
   } else if (props.type === PAGE_TYPE_ENUM.SECONDARY) {

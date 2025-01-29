@@ -28,6 +28,7 @@ export function useHomePage() {
   const uiService = new UiServices();
   const MasterData: IMasterDataSlice = useAppSelector((state) => state.MasterData);
   const Account: IAccountSlice = useAppSelector((state) => state.Account);
+  const profile = Account?.getMe?.data;
 
   const loadingListCategory = MasterData?.listCategories?.loading;
   const loadingDataMenu = MasterData.listMenu?.loading;
@@ -44,7 +45,7 @@ export function useHomePage() {
   const [selectedOrderType, setSelectedOrderType] = useState<ORDER_TYPE_ENUM | undefined>();
   const [showModalOrder, setShowModalOrder] = useState<boolean>(false);
   const [showModalShift, setShowModalShift] = useState<boolean>(false);
-
+  const [showAlertMerchant, setShowAlertMerchant] = useState<boolean>(true);
   const [dataTotal, setDataTotal] = useState({
     item: 0,
     price: 0,
@@ -268,5 +269,8 @@ export function useHomePage() {
     onMinItem,
     onCloseModalShift,
     showModalShift,
+    showAlertMerchant,
+    setShowAlertMerchant,
+    profile,
   };
 }

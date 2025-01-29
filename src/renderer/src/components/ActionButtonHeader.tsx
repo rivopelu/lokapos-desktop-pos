@@ -10,7 +10,7 @@ export function ActionButtonHeader() {
   const Account = useAppSelector((state) => state.Account);
   const profile: IResGetMe = Account?.getMe?.data;
   const shiftStart = profile?.start_shift_date ? new Date(profile.start_shift_date) : null;
-  const [elapsedTime, setElapsedTime] = useState('00:00:00');
+  const [elapsedTime, setElapsedTime] = useState<string | undefined>('');
 
   useEffect(() => {
     if (!shiftStart) return;
@@ -29,9 +29,11 @@ export function ActionButtonHeader() {
   return (
     <div className="flex items-center gap-2">
       {profile?.start_shift_date && (
-        <Button color={'success'} startIcon={<div className={'h-2 w-2 bg-green-600 rounded-full'}></div>}>
-          {elapsedTime}
-        </Button>
+        <Link to={ROUTES.STOP_SHIFT()}>
+          <Button color={'success'} startIcon={<div className={'h-2 w-2 bg-green-600 rounded-full'}></div>}>
+            {elapsedTime}
+          </Button>
+        </Link>
       )}
       <Link to={ROUTES.PROFILE()}>
         <IconButton>

@@ -9,6 +9,7 @@ import { HistoryPage } from '@renderer/pages/HistoryPage';
 import { ProfilePage } from '@renderer/pages/profile/ProfilePage';
 import { SelectMerchantPage } from '@renderer/pages/select-merchant/SelectMerchantPage';
 import { StartShiftPage } from '@renderer/pages/shift/StartShiftPage';
+import { CloseShiftPage } from '@renderer/pages/shift/CloseShiftPage';
 
 interface IRouteList {
   elements: () => Element;
@@ -52,6 +53,12 @@ export const routeList: IRouteList[] = [
   {
     elements: StartShiftPage,
     route: ROUTES.START_SHIFT(),
+    type: PAGE_TYPE_ENUM.SECONDARY,
+  },
+
+  {
+    elements: CloseShiftPage,
+    route: ROUTES.STOP_SHIFT(),
     type: PAGE_TYPE_ENUM.SECONDARY,
   },
 ];

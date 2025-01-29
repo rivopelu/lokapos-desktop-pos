@@ -12,4 +12,6 @@ export const ENDPOINT = {
   SELECT_MERCHANT: (id: string) => `/merchant/v1/select-merchant?merchant_id=${id}`,
   LIST_ACCOUNT_SHIFT: () => `/account/v1/admin/account-list`,
   START_SHIFT: () => `/shift/v1/start`,
+  GET_DETAIL_SHIFT: (id: string) => `/shift/v1/detail/${id}`,
+  CLOSE_SHIFT: () => `/shift/v1/close`,
 };

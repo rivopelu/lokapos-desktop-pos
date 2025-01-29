@@ -59,6 +59,7 @@ export function useStartShiftPage() {
 
   function onSubmit() {
     if (selectedAccountId.length > 0) {
+      setLoadingSubmit(true);
       const data = {
         account_ids: selectedAccountId,
       };

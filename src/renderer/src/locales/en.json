@@ -133,5 +133,8 @@
   "no_search_result" : "no search result",
   "select_shift_team_title" : "Please select your team to start the shift",
   "shift_is_started" : "shift is started",
-  "you_in_merchant" : "you in merchant {{name}}"
+  "you_in_merchant" : "you in merchant {{name}}",
+  "close_shift" : "close shift",
+  "close_the_shift_now" : "Close the shift now",
+  "your_shift_is_successfully_closed" : "your shift is successfully closed"
 }

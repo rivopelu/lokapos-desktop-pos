@@ -3,11 +3,13 @@ import { IResListCategory } from '@renderer/models/response/IResListCategory';
 import { createSlice } from '@reduxjs/toolkit';
 import { IResListMenu } from '@renderer/models/response/IResListMenu';
 import { IResListMerchant } from '@renderer/models/response/IResListMerchant';
+import { IResDetailShift } from '@renderer/models/response/IResDetailShift';
 
 export interface IMasterDataSlice {
   listCategories?: IPayloadData<IResListCategory[]>;
   listMenu?: IPayloadData<IResListMenu[]>;
   listMerchants?: IPayloadData<IResListMerchant[]>;
+  detailShift?: IPayloadData<IResDetailShift>;
 }
 
 const initState: IMasterDataSlice = {};
@@ -24,6 +26,9 @@ export const MasterDataSlice = createSlice({
     },
     getListMerchant: (state: IMasterDataSlice, action: BasePayload<IResListMerchant[]>) => {
       state.listMerchants = action.payload;
+    },
+    getDetailShift: (state: IMasterDataSlice, action: BasePayload<IResDetailShift>) => {
+      state.detailShift = action.payload;
     },
   },
 });

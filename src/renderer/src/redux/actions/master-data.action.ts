@@ -6,6 +6,7 @@ import { BaseResponse } from '@renderer/models/response/IResModel';
 import { IResListCategory } from '@renderer/models/response/IResListCategory';
 import { IResListMenu } from '@renderer/models/response/IResListMenu';
 import { IResListMerchant } from '@renderer/models/response/IResListMerchant';
+import { IResDetailShift } from '@renderer/models/response/IResDetailShift';
 
 export class MasterDataAction extends BaseActions {
   private action = MasterDataSlice.actions;
@@ -51,6 +52,21 @@ export class MasterDataAction extends BaseActions {
         .catch((e) => {
           this.errorService.fetchApiError(e);
           dispatch(this.action.getListMerchant({ loading: false, data: undefined }));
+        });
+    };
+  }
+
+  getDetailShift(id: string) {
+    return async (dispatch: Dispatch) => {
+      dispatch(this.action.getDetailShift({ loading: true, data: undefined }));
+      await this.httpService
+        .GET(ENDPOINT.GET_DETAIL_SHIFT(id))
+        .then((res: BaseResponse<IResDetailShift>) => {
+          dispatch(this.action.getDetailShift({ data: res.data.response_data, loading: false }));
+        })
+        .catch((e) => {
+          this.errorService.fetchApiError(e);
+          dispatch(this.action.getDetailShift({ loading: false, data: undefined }));
         });
     };
   }

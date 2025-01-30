@@ -53,6 +53,8 @@ export function MainTable(props: IProps) {
                                 {e.layouts && e.layouts(item, i)}
                               </Fragment>
                             );
+                          } else {
+                            return <></>;
                           }
                         })}
                       </TableCell>

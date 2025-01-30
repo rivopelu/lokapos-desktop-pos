@@ -7,7 +7,9 @@ export function useProfilePage() {
   const profile = Account?.getMe;
   const authService = new AuthServices();
 
-  const onLogout = authService.logout;
+  function onLogout() {
+    authService.logout().then();
+  }
 
   return {
     onLogout,

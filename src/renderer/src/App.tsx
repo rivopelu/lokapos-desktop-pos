@@ -1,10 +1,15 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { BasePage } from './components/BasePage';
 import { routeList } from './routes/route-list';
 import { ToastContainer } from 'react-toastify';
 import { MainLoading } from '@renderer/components/MainLoading';
+import { useEffect } from 'react';
 
 export default function App() {
+  const location = useLocation();
+  useEffect(() => {
+    console.log(location.pathname);
+  }, [location.pathname]);
   return (
     <div className="bg-slate-100 min-h-screen relative">
       <MainLoading />

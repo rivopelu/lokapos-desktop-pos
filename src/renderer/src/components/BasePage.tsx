@@ -16,7 +16,7 @@ export function BasePage(props: IProps) {
   const Account: IAccountSlice = useAppSelector((state) => state.Account);
 
   useEffect(() => {
-    if (location?.pathname !== '#' + ROUTES.SIGN_IN()) {
+    if (location?.pathname !== ROUTES.SIGN_IN()) {
       dispatch(accountAction.getMe()).then();
     }
   }, []);
